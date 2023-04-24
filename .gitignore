@@ -1,0 +1,15 @@
+logs
+*.log
+npm-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+pids
+*.pid
+*.seed
+*.pid.lock
+node_modules/
+.eslintcache
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
