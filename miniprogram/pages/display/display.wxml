@@ -1,0 +1,6 @@
+<!--pages/display/display.wxml-->
+<view class="container">
+  <view class="gp-container">
+    <canvas id="generated-picture" class="gp" type="2d"></canvas>
+  </view>
+</view>

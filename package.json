@@ -1,5 +1,5 @@
 {
-  "name": "miniprogram-ts-less-quickstart",
+  "name": "wmini-testtask",
   "version": "1.0.0",
   "description": "",
   "scripts": {},
@@ -10,6 +10,6 @@
     "qrcode": "^1.5.3"
   },
   "devDependencies": {
-    "miniprogram-api-typings": "^2.8.3-1"
+    "miniprogram-api-typings": "3.9.1"
   }
 }
