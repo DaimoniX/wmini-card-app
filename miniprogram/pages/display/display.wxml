@@ -1,6 +1,17 @@
 <!--pages/display/display.wxml-->
 <view class="container">
   <view class="gp-container">
-    <canvas id="generated-picture" class="gp" type="2d"></canvas>
+    <view class="gp-content">
+      <text class="heading">Your generated page</text>
+      <text class="name">{{articleData[0]}}</text>
+      <text>Page title:</text>
+      <text>{{articleData[1]}}</text>
+      <text>Page URL:</text>
+      <navigator open-type="redirect" class="url" url="web-view?url={{encodeURIComponent(articleData[2])}}">{{articleData[2]}}</navigator>
+      <view class="qr">
+        <canvas id="qrc" class="qrc" type="2d"></canvas>
+      </view>
+    </view>
   </view>
+  <button type="primary" disabled="true">Save</button>
 </view>

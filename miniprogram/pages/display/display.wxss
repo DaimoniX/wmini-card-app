@@ -1,13 +1,51 @@
 /* pages/display/display.wxss */
+.container {
+  gap: 2rem;
+  align-items: stretch;
+}
+
 .gp-container {
+  flex-grow: 1;
   background-color: rgb(238, 238, 238);
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: 2rem;
+  padding: 2rem ;
+}
+
+.gp-content {
+  background-color: rgba(255, 255, 255, 0.8);
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem 1rem 1rem;
+  justify-content: space-between;
+  gap: 15rpx;
+}
+
+.url {
+  word-break: break-all;
+}
+
+.qr {
+  width: 7rem;
+  height: 7rem;
+  background-color: rgb(224, 224, 224);
+}
+
+.qrc {
+  width: 100%;
+  height: 100%;
+}
+
+.heading {
+  text-align: center;
+  font-size: larger;
+}
+
+.name {
+  text-align: center;
 }
 
 .gp {

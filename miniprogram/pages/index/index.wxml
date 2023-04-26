@@ -6,6 +6,6 @@
       <input class="input-field" placeholder-class="input-field-placeholder"
       placeholder="{{input.name}}" bindinput="inputChange" data-id="{{input.id}}" />
     </block>
-    <button type="primary" bindtap="open">Open</button>
+    <button type="primary" bindtap="create" disabled="{{!allValueSet}}">Create</button>
   </view>
 </view>

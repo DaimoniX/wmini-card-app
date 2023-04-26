@@ -1,14 +1,12 @@
 {
   "name": "wmini-testtask",
   "version": "1.0.0",
+  "miniprogram": true,
   "description": "",
   "scripts": {},
   "keywords": [],
   "author": "",
   "license": "",
-  "dependencies": {
-    "qrcode": "^1.5.3"
-  },
   "devDependencies": {
     "miniprogram-api-typings": "3.9.1"
   }

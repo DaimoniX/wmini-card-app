@@ -1,5 +1,4 @@
-import { getArticleInfo, setArticleInfo } from "../../utils/articleHelper";
-import { formatTime } from "../../utils/util";
+import { setArticleInfo } from "../../utils/articleHelper";
 
 type Input = {
   id: number,
@@ -13,21 +12,24 @@ const inputFields = [{ id: 0, name: "Name" },
 Page({
   data: {
     inputs: inputFields,
-    values: new Array<string>(inputFields.length)
+    values: new Array<string>(inputFields.length).fill(""),
+    allValueSet: false
   },
   inputChange(e: WechatMiniprogram.CustomEvent) {
     const values = this.data.values;
     values[e.currentTarget.dataset.id] = e.detail.value;
+    let allSet = true;
+    values.forEach(v => allSet = allSet && v.length > 0);
     this.setData({
-      values: values
+      values: values,
+      allValueSet: allSet
     });
+    
   },
-  open() {
-    formatTime(new Date());
+  create() {
     setArticleInfo(this.data.values);
     wx.navigateTo({
       url: "../display/display"
     });
-    console.log(getArticleInfo());
   }
 })
