@@ -1,6 +1,6 @@
 /* pages/display/display.wxss */
 .container {
-  gap: 2rem;
+  gap: 1rem;
   align-items: stretch;
 }
 
@@ -51,4 +51,10 @@
 .gp {
   background-color: rgb(216, 216, 216);
   flex-grow: 1;
+}
+
+.bc {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem
 }

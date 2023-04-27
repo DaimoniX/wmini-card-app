@@ -9,5 +9,8 @@
   "license": "",
   "devDependencies": {
     "miniprogram-api-typings": "3.9.1"
+  },
+  "dependencies": {
+    "wxml-to-canvas": "^1.1.1"
   }
 }

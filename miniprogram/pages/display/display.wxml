@@ -7,11 +7,14 @@
       <text>Page title:</text>
       <text>{{articleData[1]}}</text>
       <text>Page URL:</text>
-      <navigator open-type="redirect" class="url" url="web-view?url={{encodeURIComponent(articleData[2])}}">{{articleData[2]}}</navigator>
+      <navigator open-type="navigate" class="url" url="web-view?url={{encodeURIComponent(articleData[2])}}">{{articleData[2]}}</navigator>
       <view class="qr">
-        <canvas id="qrc" class="qrc" type="2d"></canvas>
+        <canvas id="qrc" canvas-id="qrc" class="qrc" type="2d"></canvas>
       </view>
     </view>
   </view>
-  <button type="primary" disabled="true">Save</button>
+  <view class="bc">
+    <button type="primary" bindtap="save">Save</button>
+    <button type="primary" bindtap="preview">Preview</button>
+  </view>
 </view>

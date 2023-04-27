@@ -16,10 +16,29 @@ function drawCanvas(qr: QrCode, scale: number, border: number, lightColor: strin
   }
 }
 
+function canvasToFile(canvas: WechatMiniprogram.Canvas, onFileCreated: (res: string) => void) {
+  wx.canvasToTempFilePath({
+    x: 0,
+    y: 0,
+    width: canvas.width,
+    height: canvas.height,
+    destWidth: 512,
+    destHeight: 512,
+    canvas: canvas,
+    success(res) {
+      onFileCreated(res.tempFilePath);
+    },
+    fail(res) {
+      console.log("FAILED", res)
+    }
+  })
+}
+
 // pages/display/display.ts
 Page({
   data: {
-    articleData: Array<String>()
+    articleData: Array<String>(),
+    qr: "",
   },
   onShow() {
     const article = getArticleInfo();
@@ -37,7 +56,6 @@ Page({
       .exec((res) => {
         const canvas = res[0].node as WechatMiniprogram.Canvas;
         const ctx = canvas.getContext('2d');
-
         const dpr = wx.getSystemInfoSync().pixelRatio;
         canvas.width = res[0].width * dpr;
         canvas.height = res[0].height * dpr;
@@ -45,9 +63,32 @@ Page({
 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         drawCanvas(codeT, 8, 2, "white", "black", canvas);
+        canvasToFile(canvas, (file) => {
+          this.setData({
+            qr: file
+          })
+        });
       })
   },
+  preview() {
+    wx.previewImage({
+      urls: [this.data.qr],
+      fail(res) {
+        console.log("FAILED", res)
+      },
+      complete(res) {
+        console.log("C", res)
+      }
+    })
+  },
   save() {
-
+    wx.saveImageToPhotosAlbum({
+      filePath: this.data.qr,
+      success() {
+        wx.showToast({
+          title: "File saved"
+        })
+      }
+    })
   }
 })
