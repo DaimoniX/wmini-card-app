@@ -2,19 +2,19 @@
 <view class="container">
   <view class="a-container psaver">
     <view class="a-content psaver">
-      <text class="psaver" data-text='Article "{{articleData[0]}}"'>Article "{{articleData[0]}}"</text>
+      <text class="wb psaver" data-text='Article "{{articleData[0]}}"'>Article "{{articleData[0]}}"</text>
       <text class="psaver" data-text="Article title:">Article title:</text>
-      <text class="psaver" data-text="{{articleData[1]}}">{{articleData[1]}}</text>
+      <text class="wb psaver" data-text="{{articleData[1]}}">{{articleData[1]}}</text>
       <text class="psaver" data-text="Page URL:">Page URL:</text>
-      <navigator open-type="navigate" class="url psaver" url="web-view?url={{encodeURI(articleData[2])}}" data-text="{{articleData[2]}}">{{articleData[2]}}</navigator>
+      <navigator open-type="navigate" class="wb psaver" url="web-view?url={{encodeURI(articleData[2])}}" data-text="{{articleData[2]}}">{{articleData[2]}}</navigator>
       <view class="qr psaver">
         <image src="{{qrImage}}" class="qrc psaver"></image>
       </view>
     </view>
   </view>
   <view class="buttons">
-    <button type="primary" bindtap="save">Save</button>
-    <button type="primary" bindtap="preview">Preview</button>
+    <button type="primary" bindtap="save" disabled="{{this.data.pageImage === ''}}">Save</button>
+    <button type="primary" bindtap="preview" disabled="{{this.data.pageImage === ''}}">Preview</button>
   </view>
   <canvas id="qrc" type="2d" class="hcanvas"></canvas>
   <canvas id="pagec" type="2d" class="hcanvas"></canvas>

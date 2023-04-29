@@ -1,6 +1,6 @@
-import { QrCode, Ecc } from "./qr/qrcodegen";
+import { QrCode } from "./qr/qrcodegen";
 import { drawCanvasQR, canvasToFile } from "./qr/qrhelper";
-import { renderPageOnCanvas } from "./pagesaver/pagesaver";
+import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
 
 // pages/display/display.ts
 Page({
@@ -26,7 +26,7 @@ Page({
       articleData: article
     });
 
-    const qrCode = QrCode.encodeText(url, Ecc.MEDIUM);
+    const qrCode = QrCode.encodeText(url);
     query.select('#qrc')
       .fields({ node: true, size: true })
       .exec((res) => {
@@ -42,19 +42,14 @@ Page({
               const canvas = res[0].node as WechatMiniprogram.Canvas;
               renderPageOnCanvas(canvas, ".a-container", ".psaver", () => {
                 wx.canvasToTempFilePath({
-                  x: 0,
-                  y: 0,
                   canvas: canvas,
-                  destWidth: canvas.width,
-                  destHeight: canvas.height,
+                  destWidth: canvas.width * 2,
+                  destHeight: canvas.height * 2,
                   success(res) {
                     self.setData({ pageImage: res.tempFilePath })
-                  },
-                  fail(res) {
-                    console.log("FAILED", res)
                   }
                 })
-              })
+              });
             });
         });
       })
@@ -62,11 +57,8 @@ Page({
   preview() {
     wx.previewImage({
       current: '',
-      urls: [this.data.qrImage, this.data.pageImage],
-      fail(res) {
-        console.log("FAILED", res)
-      }
-    })
+      urls: [this.data.pageImage]
+    });
   },
   save() {
     wx.saveImageToPhotosAlbum({
@@ -74,8 +66,8 @@ Page({
       success() {
         wx.showToast({
           title: "File saved"
-        })
+        });
       }
-    })
+    });
   }
 })

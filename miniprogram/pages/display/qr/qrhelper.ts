@@ -17,19 +17,12 @@ export function drawCanvasQR(qr: QrCode, scale: number, border: number, lightCol
 
 export function canvasToFile(canvas: WechatMiniprogram.Canvas, onFileCreated: (res: string) => void) {
   wx.canvasToTempFilePath({
-    x: 0,
-    y: 0,
-    width: canvas.width,
-    height: canvas.height,
     destWidth: 512,
     destHeight: 512,
     canvas: canvas,
     fileType: 'png',
     success(res) {
       onFileCreated(res.tempFilePath);
-    },
-    fail(res) {
-      console.log("FAILED", res)
     }
   })
 }

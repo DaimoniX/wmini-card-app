@@ -51,7 +51,7 @@ export class QrCode {
   // Unicode code points (not UTF-16 code units) if the low error correction level is used. The smallest possible
   // QR Code version is automatically chosen for the output. The ECC level of the result may be higher than the
   // ecl argument if it can be done without increasing the version.
-  public static encodeText(text: string, ecl: Ecc): QrCode {
+  public static encodeText(text: string, ecl: Ecc = Ecc.MEDIUM): QrCode {
     const segs: Array<QrSegment> = QrSegment.makeSegments(text);
     return QrCode.encodeSegments(segs, ecl);
   }

@@ -24,8 +24,8 @@
   gap: 15rpx;
 }
 
-.url {
-  word-break: break-all;
+.wb {
+  white-space: wrap;
 }
 
 .qr {
