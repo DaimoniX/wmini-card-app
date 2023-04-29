@@ -24,7 +24,6 @@ type bit = number;
 type byte = number;
 type int = number;
 
-
 /*---- QR Code symbol class ----*/
 
 /* 
