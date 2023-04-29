@@ -1,5 +1,3 @@
-import { setArticleInfo } from "../../utils/articleHelper";
-
 type Input = {
   id: number,
   name: string
@@ -27,7 +25,8 @@ Page({
     
   },
   create() {
-    setArticleInfo(this.data.values);
+    const app = getApp<IAppOption>();
+    app.globalData.articleData = this.data.values;
     wx.navigateTo({
       url: "../display/display"
     });

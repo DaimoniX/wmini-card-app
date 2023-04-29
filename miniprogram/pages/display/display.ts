@@ -1,7 +1,6 @@
-import { getArticleInfo } from "../../utils/articleHelper"
 import { QrCode, Ecc } from "./qr/qrcodegen";
 import { drawCanvasQR, canvasToFile } from "./qr/qrhelper";
-import { pageToTempImagePath } from "./pagesaver/pagesaver";
+import { renderPageOnCanvas } from "./pagesaver/pagesaver";
 
 // pages/display/display.ts
 Page({
@@ -11,7 +10,8 @@ Page({
     pageImage: ""
   },
   onLoad() {
-    const article = getArticleInfo();
+    const app = getApp<IAppOption>();
+    const article = app.globalData.articleData;
 
     if (!article) {
       wx.navigateTo({ url: "../index/index" });
@@ -36,18 +36,17 @@ Page({
           this.setData({
             qrImage: file
           });
-
           query.select('#pagec')
             .fields({ node: true, size: true })
             .exec((res) => {
               const canvas = res[0].node as WechatMiniprogram.Canvas;
-              pageToTempImagePath(canvas, ".a-container", ".psaver", () => {
+              renderPageOnCanvas(canvas, ".a-container", ".psaver", () => {
                 wx.canvasToTempFilePath({
                   x: 0,
                   y: 0,
                   canvas: canvas,
-                  destWidth: 256,
-                  destHeight: 256,
+                  destWidth: canvas.width,
+                  destHeight: canvas.height,
                   success(res) {
                     self.setData({ pageImage: res.tempFilePath })
                   },

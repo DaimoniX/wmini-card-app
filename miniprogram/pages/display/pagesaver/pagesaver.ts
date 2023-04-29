@@ -28,15 +28,13 @@ function draw(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: R
     if (child.dataset?.text) {
       ctx.fillStyle = child.color;
       ctx.font = `${parseInt(child.font) * scale / 5}px Arial`;
-      ctx.fillText(child.dataset?.text, child.left - offset.left, child.top - offset.top, child.width);
+      ctx.fillText(child.dataset?.text, child.left - offset.left, child.top - offset.top);
     }
 
     if (child.src) {
       const img = canvas.createImage();
-      console.log("Image found");
       pendingImages.push(new Promise((resolve) => {
         img.onload = () => {
-          console.log("Resolved", img.src);
           ctx.drawImage(img, child.left - offset.left, child.top - offset.top, child.width, child.height);
           resolve(true);
         }
@@ -44,11 +42,10 @@ function draw(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: R
       img.src = child.src;
     }
   });
-  console.log("Images to be resolved:", pendingImages.length);
   Promise.all(pendingImages).then(() => onReady("ok"));
 }
 
-export function pageToTempImagePath(canvas: WechatMiniprogram.Canvas, containerSelector: string, elementsToRenderSelector: string, onReady: (path: string) => void, scale = 8) {
+export function renderPageOnCanvas(canvas: WechatMiniprogram.Canvas, containerSelector: string, elementsToRenderSelector: string, onReady: (path: string) => void, scale = 8) {
   const query = wx.createSelectorQuery();
 
   const q1 = new Promise<Record<string, any>>((resolve) => {

@@ -1,7 +1,5 @@
 // app.ts
 App<IAppOption>({
-  globalData: {},
-  onLaunch() {
-    
-  },
+  globalData: { articleData: new Array<string>(3).fill("") },
+  onLaunch() {}
 })
