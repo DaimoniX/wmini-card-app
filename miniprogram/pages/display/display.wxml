@@ -12,9 +12,9 @@
       </view>
     </view>
   </view>
-  <view class="buttons">
-    <button type="primary" bindtap="save" disabled="{{this.data.pageImage === ''}}">Save</button>
-    <button type="primary" bindtap="preview" disabled="{{this.data.pageImage === ''}}">Preview</button>
+  <view class="hflow">
+    <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
+    <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
   </view>
   <canvas id="qrc" type="2d" class="hcanvas"></canvas>
   <canvas id="pagec" type="2d" class="hcanvas"></canvas>

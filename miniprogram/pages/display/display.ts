@@ -1,11 +1,11 @@
 import { QrCode } from "./qr/qrcodegen";
-import { drawCanvasQR, canvasToFile } from "./qr/qrhelper";
+import { drawCanvasQR, qrToFile } from "./qr/qrhelper";
 import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
 
 // pages/display/display.ts
 Page({
   data: {
-    articleData: Array<String>(),
+    articleData: Array<string>(),
     qrImage: "",
     pageImage: ""
   },
@@ -18,41 +18,11 @@ Page({
       return;
     }
 
-    const self = this;
-    const query = wx.createSelectorQuery();
-
-    const url = article[2];
     this.setData({
       articleData: article
     });
 
-    const qrCode = QrCode.encodeText(url);
-    query.select('#qrc')
-      .fields({ node: true, size: true })
-      .exec((res) => {
-        const canvas = res[0].node as WechatMiniprogram.Canvas;
-        drawCanvasQR(qrCode, 32, 2, "white", "black", canvas);
-        canvasToFile(canvas, (file) => {
-          this.setData({
-            qrImage: file
-          });
-          query.select('#pagec')
-            .fields({ node: true, size: true })
-            .exec((res) => {
-              const canvas = res[0].node as WechatMiniprogram.Canvas;
-              renderPageOnCanvas(canvas, ".a-container", ".psaver", () => {
-                wx.canvasToTempFilePath({
-                  canvas: canvas,
-                  destWidth: canvas.width * 2,
-                  destHeight: canvas.height * 2,
-                  success(res) {
-                    self.setData({ pageImage: res.tempFilePath })
-                  }
-                })
-              });
-            });
-        });
-      })
+    this.renderPage();
   },
   preview() {
     wx.previewImage({
@@ -69,5 +39,37 @@ Page({
         });
       }
     });
+  },
+  renderPage() {
+    const self = this;
+    const query = wx.createSelectorQuery();
+    const url = this.data.articleData[2];
+    const qrCode = QrCode.encodeText(url);
+    query.select('#qrc')
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        const canvas = res[0].node as WechatMiniprogram.Canvas;
+        drawCanvasQR(qrCode, 32, 2, "white", "black", canvas);
+        qrToFile(canvas, (file) => {
+          this.setData({
+            qrImage: file
+          });
+          query.select('#pagec')
+            .fields({ node: true, size: true })
+            .exec((res) => {
+              const canvas = res[0].node as WechatMiniprogram.Canvas;
+              renderPageOnCanvas(canvas, ".a-container", ".psaver", () => {
+                wx.canvasToTempFilePath({
+                  canvas: canvas,
+                  destWidth: canvas.width,
+                  destHeight: canvas.height,
+                  success(res) {
+                    self.setData({ pageImage: res.tempFilePath })
+                  }
+                })
+              });
+            });
+        });
+      });
   }
 })

@@ -15,7 +15,7 @@ export function drawCanvasQR(qr: QrCode, scale: number, border: number, lightCol
   }
 }
 
-export function canvasToFile(canvas: WechatMiniprogram.Canvas, onFileCreated: (res: string) => void) {
+export function qrToFile(canvas: WechatMiniprogram.Canvas, onFileCreated: (res: string) => void) {
   wx.canvasToTempFilePath({
     destWidth: 512,
     destHeight: 512,

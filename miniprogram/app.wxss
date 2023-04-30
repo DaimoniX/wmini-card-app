@@ -6,4 +6,20 @@
   justify-content: center;
   box-sizing: border-box;
   padding: 40rpx;
-} 
+}
+
+.hflow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 20rpx;
+  align-items: stretch;
+}
+
+.vflow {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 20rpx;
+  align-items: stretch;
+}

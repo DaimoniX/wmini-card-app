@@ -4,9 +4,13 @@
   align-items: stretch;
 }
 
+/*
+Gradient not supported on mobile canvas(
+  background: linear-gradient(135deg, rgb(176, 120, 212) 0%, rgb(255, 122, 122) 50%, rgb(255, 204, 132) 100%);
+*/
 .a-container {
   flex-grow: 1;
-  background-color: rgb(238, 238, 238);
+  background-color: rgb(182, 142, 209);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -15,7 +19,7 @@
 }
 
 .a-content {
-  background-color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.8);
   flex-grow: 2;
   display: flex;
   flex-direction: column;
@@ -31,7 +35,7 @@
 .qr {
   width: 7rem;
   height: 7rem;
-  background-color: rgb(224, 224, 224);
+  background: rgb(224, 224, 224);
 }
 
 .qrc {

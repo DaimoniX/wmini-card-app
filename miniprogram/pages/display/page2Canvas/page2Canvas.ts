@@ -1,10 +1,17 @@
 const fields = {
   rect: true,
   size: true,
-  computedStyle: ['color', 'backgroundColor', 'font'],
+  computedStyle: ['color', 'backgroundColor', 'background', 'font'],
   properties: ['src'],
   dataset: true
 } as WechatMiniprogram.Fields;
+
+type Offset = {
+  left: number,
+  top: number,
+  right: number,
+  bottom: number,
+}
 
 function drawText(ctx: any, text: string, x: number, y: number, lineHeight: number, targetWidth: number) {
   targetWidth = targetWidth || 0;
@@ -44,29 +51,48 @@ function drawImage(canvas: WechatMiniprogram.Canvas, ctx: any, src: string, x: n
   });
 }
 
+function drawElement(ctx: any, element: Record<string, any>, offset?: Offset, root?: boolean | undefined) {
+  offset = offset ?? { left: 0, top: 0, right: 0, bottom: 0 };
+  ctx.fillStyle = element.backgroundColor;
+  ctx.fillRect(root ? 0 : element.left - offset.left, root ? 0 : element.top - offset.top, element.width, element.height);
+  if (element.dataset?.text) {
+    ctx.fillStyle = element.color;
+    ctx.font = `100 ${parseInt(element.font)}px Arial`;
+    drawText(ctx, element.dataset.text, element.left - offset.left, element.top - offset.top,
+      parseInt(element.font), element.width);
+  }
+}
+
+function createGradient(ctx: any, element: Record<string, any>, offset: Offset) {
+  const gradient = ctx.createLinearGradient(element.left - offset.left, element.top - offset.top,
+    element.right - offset.right, element.bottom - offset.bottom);
+  const str = element.background as string;
+  const gIndex = str.indexOf("gradient");
+  let s = str.indexOf(",", gIndex) + 2;
+  let e = str.indexOf("%)", gIndex) + 1;
+  const stops = str.substring(s, e).split('%, ');
+  stops.forEach((stop) => {
+    const ioS = stop.lastIndexOf(' ');
+    const color = stop.substring(0, ioS);
+    const val = parseFloat(stop.substring(ioS).replace("%", "")) / 100;
+    gradient.addColorStop(val, color);
+  });
+  ctx.fillStyle = gradient;
+}
+
 function draw(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: Record<string, any>, childProps: Record<string, any>, onReady: () => void) {
-  const offset = { left: containerProps.left, top: containerProps.top, right: containerProps.right, bottom: containerProps.bottom };
+  const offset = { left: containerProps.left, top: containerProps.top, right: containerProps.right, bottom: containerProps.bottom } as Offset;
+  const pendingImages = Array<Promise<any>>();
   const width = containerProps.width * scale;
   const height = containerProps.height * scale;
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d');
   ctx.scale(scale, scale);
-  ctx.fillStyle = containerProps.backgroundColor;
-  ctx.fillRect(0, 0, width, height);
-  const pendingImages = Array<Promise<any>>();
+  drawElement(ctx, containerProps, undefined, true);
 
   childProps.forEach((child: Record<string, any>) => {
-    ctx.fillStyle = child.backgroundColor;
-    ctx.fillRect(child.left - offset.left, child.top - offset.top, child.width, child.height);
-
-    if (child.dataset?.text) {
-      ctx.fillStyle = child.color;
-      ctx.font = `100 ${parseInt(child.font)}px Arial`;
-      drawText(ctx, child.dataset.text, child.left - offset.left, child.top - offset.top,
-        parseInt(child.font), child.width - scale);
-    }
-
+    drawElement(ctx, child, offset);
     if (child.src)
       pendingImages.push(
         drawImage(canvas, ctx, child.src, child.left - offset.left, child.top - offset.top, child.width, child.height)
@@ -76,7 +102,7 @@ function draw(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: R
 }
 
 export function renderPageOnCanvas(canvas: WechatMiniprogram.Canvas, containerSelector: string, elementsToRenderSelector: string,
-  onReady: () => void, scale = 8) {
+  onReady: () => void, scale = 4) {
   const query = wx.createSelectorQuery();
 
   const container = new Promise<Record<string, any>>((resolve) => {
