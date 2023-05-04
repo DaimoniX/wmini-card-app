@@ -26,3 +26,20 @@ export function qrToFile(canvas: WechatMiniprogram.Canvas, onFileCreated: (res: 
     }
   })
 }
+
+export function qrToFileAsync(canvas: WechatMiniprogram.Canvas) {
+  return new Promise<string>((resolve, reject) => {
+    wx.canvasToTempFilePath({
+      destWidth: 512,
+      destHeight: 512,
+      canvas: canvas,
+      fileType: 'png',
+      success(res) {
+        resolve(res.tempFilePath);
+      },
+      fail(e) {
+        reject(e);
+      }
+    })
+  });
+}

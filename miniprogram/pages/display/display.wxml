@@ -1,21 +1,44 @@
 <!--pages/display/display.wxml-->
 <view class="container">
-  <view class="a-container psaver">
+  <view class="a-container psaver" style="background-color: {{bgcolor}};">
     <view class="a-content psaver">
       <text class="wb psaver" data-text='Article "{{articleData[0]}}"'>Article "{{articleData[0]}}"</text>
       <text class="psaver" data-text="Article title:">Article title:</text>
       <text class="wb psaver" data-text="{{articleData[1]}}">{{articleData[1]}}</text>
       <text class="psaver" data-text="Page URL:">Page URL:</text>
-      <navigator open-type="navigate" class="wb psaver" url="web-view?url={{encodeURI(articleData[2])}}" data-text="{{articleData[2]}}">{{articleData[2]}}</navigator>
+      <text class="wb psaver" data-text="{{articleData[2]}}">{{articleData[2]}}</text>
       <view class="qr psaver">
         <image src="{{qrImage}}" class="qrc psaver"></image>
       </view>
     </view>
   </view>
-  <view class="hflow">
-    <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
-    <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
-  </view>
-  <canvas id="qrc" type="2d" class="hcanvas"></canvas>
-  <canvas id="pagec" type="2d" class="hcanvas"></canvas>
+  <swiper current="{{index}}">
+    <swiper-item class="s-item">
+      <view class="vflow">
+        <button type="primary" bindtap="snav" data-id="1">Customize</button>
+        <view class="hflow">
+          <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
+          <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
+        </view>
+      </view>
+    </swiper-item>
+    <swiper-item class="s-item">
+      <view class="vflow">
+        <text>Background color:</text>
+        <view class="hflow">
+          <block wx:for="{{colors}}" wx:for-item="color" wx:key="*this">
+            <button class="color-selector" size="mini" bindtap="setColor" data-color="{{color}}" style="background-color: {{color}};"></button>
+          </block>
+        </view>
+        <view class="spacer"></view>
+        <button type="primary" bindtap="snav" data-id="0">Return</button>
+      </view>
+    </swiper-item>
+  </swiper>
+
+
+
 </view>
+
+<canvas id="qrc" type="2d" class="hcanvas"></canvas>
+<canvas id="pagec" type="2d" class="hcanvas"></canvas>

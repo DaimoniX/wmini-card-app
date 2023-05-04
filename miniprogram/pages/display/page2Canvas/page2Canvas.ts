@@ -114,3 +114,40 @@ export function renderPageOnCanvas(canvas: WechatMiniprogram.Canvas, containerSe
 
   Promise.all([container, elements]).then((res) => draw(canvas, scale, res[0], res[1], onReady));
 }
+
+function drawAsync(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: Record<string, any>, childProps: Record<string, any>) {
+  const offset = { left: containerProps.left, top: containerProps.top, right: containerProps.right, bottom: containerProps.bottom } as Offset;
+  const pendingImages = Array<Promise<any>>();
+  const width = containerProps.width * scale;
+  const height = containerProps.height * scale;
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(scale, scale);
+  drawElement(ctx, containerProps, undefined, true);
+
+  childProps.forEach((child: Record<string, any>) => {
+    drawElement(ctx, child, offset);
+    if (child.src)
+      pendingImages.push(
+        drawImage(canvas, ctx, child.src, child.left - offset.left, child.top - offset.top, child.width, child.height)
+      );
+  });
+  
+  return new Promise((resolve) => {
+    Promise.all(pendingImages).then(resolve);
+  });
+}
+
+export function renderPageOnCanvasAsync(canvas: WechatMiniprogram.Canvas, containerSelector: string, elementsToRenderSelector: string, scale = 4) {
+  const query = wx.createSelectorQuery();
+
+  const container = new Promise<Record<string, any>>((resolve) => {
+    query.select(containerSelector).fields(fields, (res) => resolve(res)).exec()
+  });
+  const elements = new Promise<Record<string, any>>((resolve) => {
+    query.selectAll(elementsToRenderSelector).fields(fields, (res) => resolve(res)).exec()
+  });
+
+  return Promise.all([container, elements]).then((res) => drawAsync(canvas, scale, res[0], res[1]));
+}

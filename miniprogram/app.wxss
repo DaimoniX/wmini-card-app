@@ -8,12 +8,19 @@
   padding: 40rpx;
 }
 
+.spacer {
+  flex-grow: 1;
+  flex-shrink: 0;
+  background-color: red;
+}
+
 .hflow {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 20rpx;
   align-items: stretch;
+  justify-content: stretch;
 }
 
 .vflow {
@@ -22,4 +29,5 @@
   flex-wrap: nowrap;
   gap: 20rpx;
   align-items: stretch;
+  justify-content: stretch;
 }

@@ -1,13 +1,18 @@
 import { QrCode } from "./qr/qrcodegen";
-import { drawCanvasQR, qrToFile } from "./qr/qrhelper";
-import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
+import { drawCanvasQR, qrToFileAsync } from "./qr/qrhelper";
+import { renderPageOnCanvasAsync } from "./page2Canvas/page2Canvas";
+import { asyncQuery, canvasToTempFilePathAsync } from "../../utils/wxPromise";
+import { colors } from "../../app";
 
 // pages/display/display.ts
 Page({
   data: {
     articleData: Array<string>(),
     qrImage: "",
-    pageImage: ""
+    pageImage: "",
+    bgcolor: "",
+    colors: colors,
+    index: 0
   },
   onLoad() {
     const app = getApp<IAppOption>();
@@ -18,11 +23,23 @@ Page({
       return;
     }
 
+    this.updateData(article, app.globalData.articleBackground)
+  },
+  updateData(data: Array<string>, bgcolor: string) {
     this.setData({
-      articleData: article
+      articleData: data,
+      bgcolor: bgcolor
     });
-
     this.renderPage();
+  },
+  snav(e : any) {
+    this.setData({index: e.currentTarget.dataset.id});
+  },
+  setColor(e : any) {
+    const app = getApp<IAppOption>();
+    const bgcolor: string = e.currentTarget.dataset.color;
+    app.globalData.articleBackground = bgcolor;
+    this.updateData(this.data.articleData, bgcolor);
   },
   preview() {
     wx.previewImage({
@@ -40,36 +57,25 @@ Page({
       }
     });
   },
-  renderPage() {
-    const self = this;
-    const query = wx.createSelectorQuery();
+  async renderPage() {
+    this.setData({
+      qrImage: "",
+      pageImage: ""
+    });
+
     const url = this.data.articleData[2];
     const qrCode = QrCode.encodeText(url);
-    query.select('#qrc')
-      .fields({ node: true, size: true })
-      .exec((res) => {
-        const canvas = res[0].node as WechatMiniprogram.Canvas;
-        drawCanvasQR(qrCode, 32, 2, "white", "black", canvas);
-        qrToFile(canvas, (file) => {
-          this.setData({
-            qrImage: file
-          });
-          query.select('#pagec')
-            .fields({ node: true, size: true })
-            .exec((res) => {
-              const canvas = res[0].node as WechatMiniprogram.Canvas;
-              renderPageOnCanvas(canvas, ".a-container", ".psaver", () => {
-                wx.canvasToTempFilePath({
-                  canvas: canvas,
-                  destWidth: canvas.width,
-                  destHeight: canvas.height,
-                  success(res) {
-                    self.setData({ pageImage: res.tempFilePath })
-                  }
-                })
-              });
-            });
-        });
-      });
+    const qrCanvas = (await asyncQuery('#qrc', { node: true, size: true }))[0].node as WechatMiniprogram.Canvas;
+
+    drawCanvasQR(qrCode, 32, 2, "white", "black", qrCanvas);
+    const file = await qrToFileAsync(qrCanvas);
+    this.setData({
+      qrImage: file
+    });
+
+    const pageCanvas = (await asyncQuery('#pagec', { node: true, size: true }))[0].node as WechatMiniprogram.Canvas;
+    await renderPageOnCanvasAsync(pageCanvas, ".a-container", ".psaver");
+    const cFile = await canvasToTempFilePathAsync(pageCanvas, pageCanvas.width, pageCanvas.height);
+    this.setData({ pageImage: cFile });
   }
 })

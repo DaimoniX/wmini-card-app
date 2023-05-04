@@ -1,21 +1,35 @@
 /* pages/display/display.wxss */
 .container {
-  gap: 1rem;
   align-items: stretch;
+  justify-content: space-between;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 
-/*
-Gradient not supported on mobile canvas(
-  background: linear-gradient(135deg, rgb(176, 120, 212) 0%, rgb(255, 122, 122) 50%, rgb(255, 204, 132) 100%);
-*/
+button:not([size=mini]) {
+  width: 100% !important;
+}
+
+.s-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 .a-container {
-  flex-grow: 1;
   background-color: rgb(182, 142, 209);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   padding: 2rem ;
+}
+
+.color-selector {
+  height: 40rpx;
 }
 
 .a-content {
