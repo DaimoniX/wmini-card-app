@@ -7,6 +7,6 @@
       placeholder="{{input.name}}" bindinput="inputChange" data-id="{{input.id}}" />
     </block>
     <button type="primary" bindtap="create" disabled="{{!allSet || !validUrl}}">Create</button>
-    <text wx:if="{{!validUrl}}" style="text-align: center;">Invalid url</text>
+    <text wx:if="{{!validUrl && allSet}}" style="text-align: center;">Invalid url</text>
   </view>
 </view>
