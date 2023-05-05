@@ -15,7 +15,7 @@
   <swiper current="{{index}}">
     <swiper-item class="s-item">
       <view class="vflow">
-        <button type="primary" bindtap="snav" data-id="1">Customize</button>
+        <button type="primary" bindtap="setTab" data-tab="1">Customize</button>
         <view class="hflow">
           <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
           <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
@@ -31,7 +31,7 @@
           </block>
         </view>
         <view class="spacer"></view>
-        <button type="primary" bindtap="snav" data-id="0">Return</button>
+        <button type="primary" bindtap="setTab" data-tab="0">Return</button>
       </view>
     </swiper-item>
   </swiper>
