@@ -1,10 +1,8 @@
+import { isURL } from "../../utils/isUrl";
+
 type Input = {
   id: number,
   name: string
-}
-
-function isURL(str : string) {
-  return /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(str); 
 }
 
 const inputFields = [{ id: 0, name: "Name" },
