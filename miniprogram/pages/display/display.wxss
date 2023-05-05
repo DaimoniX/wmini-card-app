@@ -43,7 +43,7 @@ button:not([size=mini]) {
 }
 
 .wb {
-  white-space: wrap;
+  word-wrap: break-word;
 }
 
 .qr {
