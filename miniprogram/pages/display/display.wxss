@@ -19,7 +19,7 @@ button:not([size=mini]) {
   justify-content: flex-end;
 }
 
-.a-container {
+.article-container {
   background-color: rgb(182, 142, 209);
   display: flex;
   flex-direction: column;
@@ -32,17 +32,21 @@ button:not([size=mini]) {
   height: 40rpx;
 }
 
-.a-content {
+.article-content {
   background: rgba(255, 255, 255, 0.8);
   flex-grow: 2;
   display: flex;
   flex-direction: column;
-  padding: 2rem 1rem 1rem 1rem;
+  padding: 1rem;
   justify-content: space-between;
-  gap: 15rpx;
+  gap: 20rpx;
 }
 
 .wb {
+  word-break: break-all;
+}
+
+.ww {
   word-wrap: break-word;
 }
 

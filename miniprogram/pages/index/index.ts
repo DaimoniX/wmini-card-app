@@ -26,7 +26,7 @@ Page({
     this.data.values.forEach(v => allSet = allSet && v.length > 0);
     this.setData({
       allSet: allSet,
-      validUrl: isURL(this.data.values[this.data.values.length - 1])
+      validUrl: allSet && isURL(this.data.values[this.data.values.length - 1])
     });
   },
   create() {

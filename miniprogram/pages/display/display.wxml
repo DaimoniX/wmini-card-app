@@ -1,14 +1,14 @@
 <!--pages/display/display.wxml-->
 <view class="container">
-  <view class="a-container psaver" style="background-color: {{bgcolor}};">
-    <view class="a-content psaver">
-      <text class="wb psaver" data-text='Article "{{articleData[0]}}"'>Article "{{articleData[0]}}"</text>
-      <text class="psaver" data-text="Article title:">Article title:</text>
-      <text class="wb psaver" data-text="{{articleData[1]}}">{{articleData[1]}}</text>
-      <text class="psaver" data-text="Page URL:">Page URL:</text>
-      <text class="wb psaver" data-text="{{articleData[2]}}">{{articleData[2]}}</text>
-      <view class="qr psaver">
-        <image src="{{qrImage}}" class="qrc psaver"></image>
+  <view class="article-container _save" style="background-color: {{bgcolor}};">
+    <view class="article-content _save">
+      <text class="wb _save" data-text='Article "{{articleData[0]}}"'>Article "{{articleData[0]}}"</text>
+      <text class="_save" data-text="Article title:">Article title:</text>
+      <text class="wb _save" data-text="{{articleData[1]}}">{{articleData[1]}}</text>
+      <text class="_save" data-text="Page URL:">Page URL:</text>
+      <text class="ww _save" data-text="{{articleData[2]}}">{{articleData[2]}}</text>
+      <view class="qr _save">
+        <image src="{{qrImage}}" class="qrc _save"></image>
       </view>
     </view>
   </view>

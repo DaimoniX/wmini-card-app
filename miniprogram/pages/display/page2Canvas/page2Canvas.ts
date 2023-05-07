@@ -1,3 +1,5 @@
+import { selectAllAsync, selectAsync } from "../../../utils/wxPromise";
+
 const fields = {
   rect: true,
   size: true,
@@ -13,32 +15,9 @@ type Offset = {
   bottom: number,
 }
 
-function drawText(ctx: any, text: string, x: number, y: number, lineHeight: number, targetWidth: number) {
-  if (targetWidth <= 0) {
-    ctx.fillText(text, x, y);
-    return;
-  }
-  let words = text.split(' ');
-  let currentLine = 0;
-  let i = 1;
-  while (words.length > 0 && i <= words.length) {
-    const str = words.slice(0, i).join(' ');
-    const w = ctx.measureText(str).width;
-    if (w > targetWidth) {
-      i = i < 2 ? 2 : i;
-      ctx.fillText(words.slice(0, i - 1).join(' '), x, y + (lineHeight * currentLine));
-      currentLine++;
-      words = words.splice(i - 1);
-      i = 1;
-    }
-    else
-      i++;
-  }
-  if (i > 0)
-    ctx.fillText(words.join(' '), x, y + (lineHeight * currentLine));
-}
-
-function fitText(ctx: any, text: string, x: number, y: number, lineHeight: number, fitWidth: number) {
+function fitText(ctx: any, text: string, color: string, x: number, y: number, lineHeight: number, fitWidth: number) {
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = color;
   if (fitWidth <= 0) {
     ctx.fillText(text, x, y);
     return;
@@ -48,7 +27,7 @@ function fitText(ctx: any, text: string, x: number, y: number, lineHeight: numbe
     const str = text.substr(0, i);
     if (ctx.measureText(str).width > fitWidth) {
       ctx.fillText(text.substr(0, i - 1), x, y);
-      fitText(ctx, text.substr(i - 1), x, y + lineHeight, lineHeight, fitWidth);
+      fitText(ctx, text.substr(i - 1), color, x, y + lineHeight, lineHeight, fitWidth);
       return;
     }
   }
@@ -58,27 +37,23 @@ function fitText(ctx: any, text: string, x: number, y: number, lineHeight: numbe
 function drawImage(canvas: WechatMiniprogram.Canvas, ctx: any, src: string, x: number, y: number, width: number, height: number) {
   const img = canvas.createImage();
   img.src = src;
-  return new Promise<void>((resolve) => {
+  return new Promise<void>((resolve, reject) => {
     img.onload = () => {
       ctx.drawImage(img, x, y, width, height);
       resolve();
     }
+    img.onerror = reject;
   });
 }
 
-function drawElement(ctx: any, element: Record<string, any>, offset?: Offset, root?: boolean | undefined) {
+function drawElement(ctx: any, element: Record<string, any>, offset?: Offset, root?: boolean) {
   offset = offset ?? { left: 0, top: 0, right: 0, bottom: 0 };
   ctx.fillStyle = element.backgroundColor;
   ctx.fillRect(root ? 0 : element.left - offset.left, root ? 0 : element.top - offset.top, element.width, element.height);
   if (element.dataset?.text) {
-    ctx.fillStyle = element.color;
     ctx.font = `200 ${parseInt(element.font)}px Arial`;
-    if (element.wordWrap === "break-word")
-      fitText(ctx, element.dataset.text, element.left - offset.left, element.top - offset.top,
-        parseInt(element.font), element.width);
-    else
-      drawText(ctx, element.dataset.text, element.left - offset.left, element.top - offset.top,
-        parseInt(element.font), element.width);
+    fitText(ctx, element.dataset.text, element.color, element.left - offset.left, element.top - offset.top,
+      parseInt(element.font), element.width);
   }
 }
 
@@ -103,10 +78,8 @@ export function renderPageOnCanvas(canvas: WechatMiniprogram.Canvas, containerSe
 function drawAsync(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: Record<string, any>, childProps: Record<string, any>) {
   const offset = { left: containerProps.left, top: containerProps.top, right: containerProps.right, bottom: containerProps.bottom } as Offset;
   const pendingImages = Array<Promise<any>>();
-  const width = containerProps.width * scale;
-  const height = containerProps.height * scale;
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = containerProps.width * scale;
+  canvas.height = containerProps.height * scale;
   const ctx = canvas.getContext('2d');
   ctx.scale(scale, scale);
   drawElement(ctx, containerProps, undefined, true);
@@ -119,21 +92,13 @@ function drawAsync(canvas: WechatMiniprogram.Canvas, scale: number, containerPro
       );
   });
 
-  return new Promise((resolve) => {
-    Promise.all(pendingImages).then(resolve);
-  });
+  return new Promise((resolve, reject) =>
+    Promise.all(pendingImages).then(resolve).catch(reject)
+  );
 }
 
 export async function renderPageOnCanvasAsync(canvas: WechatMiniprogram.Canvas, containerSelector: string, elementsToRenderSelector: string, scale = 4) {
-  const query = wx.createSelectorQuery();
-
-  const container = new Promise<Record<string, any>>((resolve) => {
-    query.select(containerSelector).fields(fields, (res) => resolve(res)).exec()
-  });
-  const elements = new Promise<Record<string, any>>((resolve) => {
-    query.selectAll(elementsToRenderSelector).fields(fields, (res) => resolve(res)).exec()
-  });
-
-  const res_2 = await Promise.all([container, elements]);
-  return await drawAsync(canvas, scale, res_2[0], res_2[1]);
+  const container = (await selectAsync(containerSelector, fields))[0];
+  const elements = (await selectAllAsync(elementsToRenderSelector, fields))[0];
+  return await drawAsync(canvas, scale, container, elements);
 }
