@@ -20,6 +20,7 @@
     "minified": true,
     "es6": true,
     "enhance": true,
+    "packNpmManually": true,
     "packNpmRelationList": [
       {
         "packageJsonPath": "package.json",

@@ -1,4 +1,4 @@
-import { isURL } from "../../utils/isUrl";
+import validator from 'validator';
 
 type Input = {
   id: number,
@@ -26,7 +26,7 @@ Page({
     this.data.values.forEach(v => allSet = allSet && v.length > 0);
     this.setData({
       allSet: allSet,
-      validUrl: allSet && isURL(this.data.values[this.data.values.length - 1])
+      validUrl: allSet && validator.isURL(this.data.values[this.data.values.length - 1])
     });
   },
   create() {
