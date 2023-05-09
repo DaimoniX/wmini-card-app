@@ -1,10 +1,10 @@
 export function selectAsync(selector: string, fields: WechatMiniprogram.Fields) {
-  return new Promise<Array<any>>((resolve) => {
+  return new Promise<any>((resolve) => {
     const query = wx.createSelectorQuery();
     query.select(selector)
       .fields(fields)
       .exec((res) => {
-        resolve(res);
+        resolve(res[0]);
       });
   });
 }
@@ -15,7 +15,7 @@ export function selectAllAsync(selector: string, fields: WechatMiniprogram.Field
     query.selectAll(selector)
       .fields(fields)
       .exec((res) => {
-        resolve(res);
+        resolve(res[0]);
       });
   });
 }

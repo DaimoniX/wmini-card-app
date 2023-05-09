@@ -1,6 +1,6 @@
 import { QrCode } from "./qr/qrcodegen";
 import { drawCanvasQR, qrToFileAsync } from "./qr/qrhelper";
-import { renderPageOnCanvasAsync } from "./page2Canvas/page2Canvas";
+import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
 import { selectAsync, canvasToTempFilePathAsync } from "../../utils/wxPromise";
 import { colors } from "../../app";
 
@@ -67,7 +67,7 @@ Page({
     if (!this.data.qrImage) {
       const url = this.data.articleData[2];
       const qrCode = QrCode.encodeText(url);
-      const qrCanvas = (await selectAsync('#qrc', { node: true, size: true }))[0].node as WechatMiniprogram.Canvas;
+      const qrCanvas = (await selectAsync('#qrc', { node: true, size: true })).node as WechatMiniprogram.Canvas;
 
       drawCanvasQR(qrCode, 32, 2, "white", "black", qrCanvas);
       const file = await qrToFileAsync(qrCanvas);
@@ -77,8 +77,8 @@ Page({
       });
     }
 
-    const pageCanvas = (await selectAsync('#pagec', { node: true, size: true }))[0].node as WechatMiniprogram.Canvas;
-    await renderPageOnCanvasAsync(pageCanvas, ".article-container", "._save");
+    const pageCanvas = (await selectAsync('#pagec', { node: true, size: true })).node as WechatMiniprogram.Canvas;
+    await renderPageOnCanvas(pageCanvas, ".article-container", "._save");
     const cFile = await canvasToTempFilePathAsync(pageCanvas, pageCanvas.width, pageCanvas.height);
     this.setData({ pageImage: cFile });
   }

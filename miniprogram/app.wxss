@@ -31,3 +31,15 @@
   align-items: stretch;
   justify-content: stretch;
 }
+
+.center {
+  align-self: center;
+}
+
+.wb {
+  word-break: break-all;
+}
+
+.ww {
+  word-wrap: break-word;
+}
