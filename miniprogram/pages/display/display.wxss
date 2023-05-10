@@ -2,21 +2,11 @@
 .container {
   align-items: stretch;
   justify-content: space-between;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  min-height: 100vh;
 }
 
 button:not([size=mini]) {
   width: 100% !important;
-}
-
-.s-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 }
 
 .article-container {
@@ -25,7 +15,7 @@ button:not([size=mini]) {
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
-  padding: 2rem ;
+  padding: 1.5rem ;
   font-family: sans-serif;
 }
 
@@ -36,7 +26,7 @@ button:not([size=mini]) {
   flex-direction: column;
   padding: 1rem;
   justify-content: space-between;
-  gap: 20rpx;
+  gap: 24rpx;
 }
 
 .qr {
@@ -50,19 +40,8 @@ button:not([size=mini]) {
   height: 7rem;
 }
 
-.heading {
-  text-align: center;
-  font-size: 1.2rem;
-}
-
 .name {
   text-align: center;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem
 }
 
 .color-selector {
@@ -73,8 +52,21 @@ button:not([size=mini]) {
   box-shadow: inset 0 0 0 2px rgba(61, 61, 61, 0.6);
 }
 
+.customization {
+  height: 120px;
+}
+
+.s-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 .hcanvas {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 0;
   height: 0;
+  visibility: hidden;
 }

@@ -43,3 +43,20 @@
 .ww {
   word-wrap: break-word;
 }
+
+.heading, .subheading, .text {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.heading {
+  font-size: 20px;
+}
+
+.subheading {
+  font-size: 18px;
+}
+
+.text {
+  font-size: 16px;
+  color: rgb(57, 43, 126);
+}

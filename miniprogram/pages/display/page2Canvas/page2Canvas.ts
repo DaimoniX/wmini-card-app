@@ -46,7 +46,7 @@ function drawElement(ctx: any, element: ComponentProps, offset?: Offset, root?: 
   ctx.fillStyle = element.backgroundColor;
   ctx.fillRect(root ? 0 : element.left - offset.left, root ? 0 : element.top - offset.top, element.width, element.height);
   if (element.dataset?.text) {
-    ctx.font = `300 ${parseInt(element.font)}px sans-serif`;
+    ctx.font = element.font;
     fitText(ctx, element.dataset.text, element.color, element.left - offset.left, element.top - offset.top,
       parseInt(element.font), element.width);
   }
