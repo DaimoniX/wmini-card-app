@@ -3,6 +3,26 @@
   align-items: stretch;
   justify-content: space-between;
   min-height: 100vh;
+  gap: 30rpx;
+  position: static;
+}
+
+button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgimage {
+  box-sizing: border-box;
+  background-color: rgb(187, 187, 187);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 button:not([size=mini]) {
@@ -15,8 +35,8 @@ button:not([size=mini]) {
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
-  padding: 1.5rem ;
   font-family: sans-serif;
+  position: relative;
 }
 
 .article-content {
@@ -26,7 +46,9 @@ button:not([size=mini]) {
   flex-direction: column;
   padding: 1rem;
   justify-content: space-between;
-  gap: 24rpx;
+  gap: 30rpx;
+  margin: 40rpx;
+  z-index: 2;
 }
 
 .qr {
@@ -53,13 +75,12 @@ button:not([size=mini]) {
 }
 
 .customization {
-  height: 120px;
+  height: 180px;
 }
 
 .s-item {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
 }
 
 .hcanvas {

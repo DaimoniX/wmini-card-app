@@ -1,4 +1,4 @@
-export type Props = 'color' | 'backgroundColor' | 'font' | 'wordWrap' | 'src' | 'left' | 'top' | 'right' | 'bottom' | 'height' | 'width' | 'dataset';
+export type Props = 'color' | 'backgroundColor' | 'font' | 'wordWrap' | 'src' | 'left' | 'top' | 'right' | 'bottom' | 'height' | 'width' | 'dataset' | 'mode';
 
 export type Offset = {
   left: number,

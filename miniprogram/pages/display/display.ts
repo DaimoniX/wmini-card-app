@@ -11,6 +11,7 @@ Page({
     qrImage: "",
     pageImage: "",
     bgcolor: "",
+    bgImage: "",
     colors: colors,
     index: 0
   },
@@ -30,7 +31,6 @@ Page({
       articleData: data,
       bgcolor: bgcolor
     });
-
     this.renderPage();
   },
   setTab(e: any) {
@@ -39,8 +39,8 @@ Page({
   setColor(e: any) {
     const app = getApp<IAppOption>();
     const bgcolor: string = e.currentTarget.dataset.color;
-
     app.globalData.articleBackground = bgcolor;
+
     this.updateData(this.data.articleData, bgcolor);
   },
   preview() {
@@ -71,7 +71,7 @@ Page({
 
       drawCanvasQR(qrCode, 32, 2, "white", "black", qrCanvas);
       const file = await qrToFileAsync(qrCanvas);
-      
+
       this.setData({
         qrImage: file
       });
@@ -81,5 +81,20 @@ Page({
     await renderPageOnCanvas(pageCanvas, ".article-container", "._save");
     const cFile = await canvasToTempFilePathAsync(pageCanvas, pageCanvas.width, pageCanvas.height);
     this.setData({ pageImage: cFile });
+  },
+  selectImage() {
+    const self = this;
+    wx.chooseMedia({
+      count: 1, mediaType: ['image'],
+      success(res) {
+        self.setData({
+          bgImage: res.tempFiles[0].tempFilePath
+        })
+        self.renderPage();
+      }
+    });
+  },
+  clearImage() {
+    this.setData({ bgImage: "" });
   }
 })

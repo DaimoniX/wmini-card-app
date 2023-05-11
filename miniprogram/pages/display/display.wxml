@@ -1,6 +1,7 @@
 <!--pages/display/display.wxml-->
 <view class="container">
   <view class="article-container _save" style="background-color: {{bgcolor}};">
+    <image class="bgimage _save" src="{{bgImage}}" mode="aspectFill" hidden="{{bgImage === ''}}"></image>
     <view class="article-content _save">
       <text class="wb heading center _save" data-text="~ Article ~">~ Article ~</text>
       <text class="wb heading center _save" data-text="{{articleData[0]}}">{{articleData[0]}}</text>
@@ -25,6 +26,10 @@
     </swiper-item>
     <swiper-item class="s-item">
       <view class="vflow">
+        <view class="hflow">
+          <button type="primary" bindtap="selectImage">Select image</button>
+          <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear image</button>
+        </view>
         <text>Background color:</text>
         <view class="hflow">
           <block wx:for="{{colors}}" wx:for-item="color" wx:key="*this">
