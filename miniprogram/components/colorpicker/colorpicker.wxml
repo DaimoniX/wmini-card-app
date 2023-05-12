@@ -1,9 +1,9 @@
 <!--components/colorpicker/colorpicker.wxml-->
 <view class="colorpicker-container">
   <view class="sliders">
-    <slider max="255" show-value="true" bindchange="setR" value="{{rv}}"></slider>
-    <slider max="255" show-value="true" bindchange="setG" value="{{gv}}"></slider>
-    <slider max="255" show-value="true" bindchange="setB" value="{{bv}}"></slider>
+    <slider max="255" show-value="true" bindchange="setR" value="{{r}}"></slider>
+    <slider max="255" show-value="true" bindchange="setG" value="{{g}}"></slider>
+    <slider max="255" show-value="true" bindchange="setB" value="{{b}}"></slider>
   </view>
-  <view class="resColor" style="background-color: rgb({{rv}}, {{gv}}, {{bv}});"></view>
+  <view class="resColor" style="background-color: rgb({{r}}, {{g}}, {{b}});"></view>
 </view>

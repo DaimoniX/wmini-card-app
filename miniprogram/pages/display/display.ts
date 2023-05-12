@@ -25,13 +25,13 @@ Page({
     }
 
     this.setData({
-      bgImage: app.globalData.articleImage
+      bgImage: app.globalData.articleImage,
+      bgRGB: fromRGBString(app.globalData.articleBackground)
     });
     this.updateData(article, app.globalData.articleBackground)
   },
   updateData(data: Array<string>, bgcolor: string) {
     this.setData({
-      bgRGB: fromRGBString(bgcolor),
       articleData: data,
       bgColor: bgcolor
     });
