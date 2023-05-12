@@ -11,6 +11,7 @@
 }
 
 .resColor {
+  margin-right: 18px;
   width: 140rpx;
   height: 140rpx;
 }

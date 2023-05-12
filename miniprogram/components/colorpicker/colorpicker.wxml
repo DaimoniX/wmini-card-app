@@ -5,8 +5,5 @@
     <slider max="255" show-value="true" bindchange="setG" value="{{gv}}"></slider>
     <slider max="255" show-value="true" bindchange="setB" value="{{bv}}"></slider>
   </view>
-  <view>
-    <view class="resColor" style="background-color: rgb({{rv}}, {{gv}}, {{bv}});"></view>
-  </view>
-  
+  <view class="resColor" style="background-color: rgb({{rv}}, {{gv}}, {{bv}});"></view>
 </view>
