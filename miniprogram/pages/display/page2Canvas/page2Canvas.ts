@@ -34,7 +34,7 @@ function drawImage(canvas: WechatMiniprogram.Canvas, ctx: any, src: string, x: n
   img.src = src;
   return new Promise<void>((resolve, reject) => {
     img.onload = () => {
-      if(mode === "aspectFill")
+      if (mode === "aspectFill")
         drawImageProp(ctx, img, x, y, width, height, 0.5, 0.5);
       else
         ctx.drawImage(img, x, y, width, height);
@@ -75,7 +75,7 @@ function drawImageProp(ctx: any, img: any, x: number, y: number, width: number, 
   ctx.drawImage(img, resX, resY, resWidth, resHeight, x, y, width, height);
 }
 
-function drawElement(ctx: any, element: ComponentProps, offset?: Offset, root?: boolean) {
+async function drawElement(canvas: any, ctx: any, element: ComponentProps, offset?: Offset, root?: boolean) {
   offset = offset ?? { left: 0, top: 0, right: 0, bottom: 0 };
   ctx.fillStyle = element.backgroundColor;
   ctx.fillRect(root ? 0 : element.left - offset.left, root ? 0 : element.top - offset.top, element.width, element.height);
@@ -84,6 +84,9 @@ function drawElement(ctx: any, element: ComponentProps, offset?: Offset, root?: 
     fitText(ctx, element.dataset.text, element.color, element.left - offset.left, element.top - offset.top,
       parseInt(element.font), element.width);
   }
+
+  if (element.src)
+    await drawImage(canvas, ctx, element.src, element.left - offset.left, element.top - offset.top, element.width, element.height, element.mode);
 }
 
 async function draw(canvas: WechatMiniprogram.Canvas, scale: number, containerProps: ComponentProps, childProps: ComponentProps[]) {
@@ -92,14 +95,10 @@ async function draw(canvas: WechatMiniprogram.Canvas, scale: number, containerPr
   canvas.height = containerProps.height * scale;
   const ctx = canvas.getContext('2d');
   ctx.scale(scale, scale);
-  drawElement(ctx, containerProps, undefined, true);
+  drawElement(canvas, ctx, containerProps, undefined, true);
 
-  for (let i = 0; i < childProps.length; i++) {
-    const child = childProps[i];
-    drawElement(ctx, child, offset);
-    if (child.src)
-      await drawImage(canvas, ctx, child.src, child.left - offset.left, child.top - offset.top, child.width, child.height, child.mode);
-  }
+  for (const child of childProps)
+    await drawElement(canvas, ctx, child, offset);
 }
 
 export async function renderPageOnCanvas(canvas: WechatMiniprogram.Canvas, containerSelector: string, elementsToRenderSelector: string, scale = 4) {

@@ -1,8 +1,8 @@
 <!--pages/display/display.wxml-->
-<view class="container">
-  <view class="article-container _save" style="background-color: {{bgcolor}};">
+<view class="container" id="tp">
+  <view class="article-container _save" style="background-color: {{bgColor}};">
     <image class="bgimage _save" src="{{bgImage}}" mode="aspectFill" hidden="{{bgImage === ''}}"></image>
-    <view class="article-content _save">
+    <view class="article-content _save" style="background-color: {{bgImage === '' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.95)'}};">
       <text class="wb heading center _save" data-text="~ Article ~">~ Article ~</text>
       <text class="wb heading center _save" data-text="{{articleData[0]}}">{{articleData[0]}}</text>
       <text class="subheading _save" data-text="Title:">Title:</text>
@@ -31,13 +31,9 @@
           <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear image</button>
         </view>
         <text>Background color:</text>
-        <view class="hflow">
-          <block wx:for="{{colors}}" wx:for-item="color" wx:key="*this">
-            <button class="color-selector {{bgcolor === color ? 'selected' : ''}}" size="mini" bindtap="setColor" data-color="{{color}}" style="background-color: {{color}};"></button>
-          </block>
-        </view>
+        <colorpicker bindchange="setColor" r="{{bgRGB[0]}}" g="{{bgRGB[1]}}" b="{{bgRGB[2]}}"></colorpicker>
         <view class="spacer"></view>
-        <button type="primary" bindtap="setTab" data-tab="0">Return</button>
+        <button id="rt" type="primary" bindtap="setTab" data-tab="0">Return</button>
       </view>
     </swiper-item>
   </swiper>

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "Article info",
-  "usingComponents": {}
+  "usingComponents": {
+    "colorpicker" : "../../components/colorpicker/colorpicker"
+  }
 }

@@ -1,0 +1,16 @@
+/* components/colorpicker/colorpicker.wxss */
+.colorpicker-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.sliders {
+  display: flex;
+  flex-direction: column;
+}
+
+.resColor {
+  width: 140rpx;
+  height: 140rpx;
+}

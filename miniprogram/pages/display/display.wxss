@@ -46,7 +46,7 @@ button:not([size=mini]) {
   flex-direction: column;
   padding: 1rem;
   justify-content: space-between;
-  gap: 30rpx;
+  gap: 20rpx;
   margin: 40rpx;
   z-index: 2;
 }
@@ -66,16 +66,8 @@ button:not([size=mini]) {
   text-align: center;
 }
 
-.color-selector {
-  height: 40rpx;
-}
-
-.color-selector.selected {
-  box-shadow: inset 0 0 0 2px rgba(61, 61, 61, 0.6);
-}
-
 .customization {
-  height: 180px;
+  height: 270px;
 }
 
 .s-item {
