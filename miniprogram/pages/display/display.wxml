@@ -4,11 +4,13 @@
     <image class="bgimage _save" src="{{bgImage}}" mode="aspectFill" hidden="{{bgImage === ''}}"></image>
     <view class="article-content _save" style="background-color: {{bgImage === '' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.95)'}};">
       <text class="wb heading center _save" data-text="~ Article ~">~ Article ~</text>
-      <text class="wb heading center _save" data-text="{{articleData[0]}}">{{articleData[0]}}</text>
-      <text class="subheading _save" data-text="Title:">Title:</text>
-      <text class="wb text _save" data-text="{{articleData[1]}}">{{articleData[1]}}</text>
-      <text class="subheading _save" data-text="Link:">Link:</text>
-      <text class="wb text _save" data-text="{{articleData[2]}}">{{articleData[2]}}</text>
+      <text class="wb heading center _save" data-text="{{articleData['name']}}">{{articleData['name']}}</text>
+      <block wx:for="{{fields}}" wx:key="key" wx:for-item="field">
+        <block wx:if="{{articleData[field.key]}}">
+          <text class="subheading _save" data-text="{{field.name}}:">{{field.name}}:</text>
+          <text class="wb text _save" data-text="{{articleData[field.key]}}">{{articleData[field.key]}}</text>
+        </block>
+      </block>
       <view class="qr _save">
         <image src="{{qrImage}}" class="qrc _save"></image>
       </view>

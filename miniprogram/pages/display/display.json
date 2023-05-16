@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "Article info",
+  "navigationBarTitleText": "Paper poster",
   "usingComponents": {
     "colorpicker" : "../../components/colorpicker/colorpicker"
   }

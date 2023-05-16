@@ -3,11 +3,14 @@ import { drawCanvasQR, qrToFileAsync } from "./qr/qrhelper";
 import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
 import { selectAsync, canvasToTempFilePathAsync } from "../../utils/wxPromise";
 import { fromRGBString } from "../../utils/rgbTools";
+import { getGlobalData } from "../../app";
+import { Article, inputFields } from "../../article";
 
 // pages/display/display.ts
 Page({
   data: {
-    articleData: Array<string>(),
+    fields: inputFields.slice(1),
+    articleData: {} as Article,
     qrImage: "",
     pageImage: "",
     bgRGB: Array<number>(3).fill(0),
@@ -15,9 +18,9 @@ Page({
     bgImage: "",
     index: 0
   },
-  onLoad() {
-    const app = getApp<IAppOption>();
-    const article = app.globalData.articleData;
+  onReady() {
+    const data = getGlobalData();
+    const article = data.articleData;
 
     if (!article) {
       wx.navigateTo({ url: "../index/index" });
@@ -25,12 +28,12 @@ Page({
     }
 
     this.setData({
-      bgImage: app.globalData.articleImage,
-      bgRGB: fromRGBString(app.globalData.articleBackground)
+      bgImage: data.articleImage,
+      bgRGB: fromRGBString(data.articleBackground)
     });
-    this.updateData(article, app.globalData.articleBackground)
+    this.updateData(article, data.articleBackground);
   },
-  updateData(data: Array<string>, bgcolor: string) {
+  updateData(data: Article, bgcolor: string) {
     this.setData({
       articleData: data,
       bgColor: bgcolor
@@ -41,14 +44,12 @@ Page({
     const index = e.currentTarget.dataset.tab;
     this.setData({ index });
     wx.pageScrollTo({
-      selector: index == 0 ? "#tp" : "#rt",
-      duration: 400
+      selector: index == 0 ? "#tp" : "#rt"
     });
   },
   setColor(e: WechatMiniprogram.CustomEvent) {
     const rgb = e.detail.rgb;
-    const app = getApp<IAppOption>();
-    app.globalData.articleBackground = rgb;
+    getGlobalData().articleBackground = rgb;
     this.updateData(this.data.articleData, rgb);
   },
   preview() {
@@ -73,7 +74,7 @@ Page({
     });
 
     if (!this.data.qrImage) {
-      const url = this.data.articleData[2];
+      const url = this.data.articleData["url"];
       const qrCode = QrCode.encodeText(url);
       const qrCanvas = (await selectAsync('#qrc', { node: true, size: true })).node as WechatMiniprogram.Canvas;
 
@@ -95,17 +96,16 @@ Page({
     wx.chooseMedia({
       count: 1, mediaType: ['image'],
       success(res) {
-        self.setData({
-          bgImage: res.tempFiles[0].tempFilePath
-        });
-        getApp<IAppOption>().globalData.articleImage = res.tempFiles[0].tempFilePath;
-        self.renderPage();
+        self.setImage(res.tempFiles[0].tempFilePath);
       }
     });
   },
   clearImage() {
-    this.setData({ bgImage: "" });
-    getApp<IAppOption>().globalData.articleImage = "";
+    this.setImage("");
+  },
+  setImage(img: string) {
+    this.setData({ bgImage: img });
+    getGlobalData().articleImage = img;
     this.renderPage();
   }
 })

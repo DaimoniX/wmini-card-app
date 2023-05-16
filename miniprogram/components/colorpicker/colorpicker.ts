@@ -10,19 +10,19 @@ Component({
     }
   },
   methods: {
-    setR(arg : WechatMiniprogram.CustomEvent) {
+    setR(e : WechatMiniprogram.CustomEvent) {
       this.setData({
-        r: arg.detail.value
+        r: e.detail.value
       })
     },
-    setG(arg : WechatMiniprogram.CustomEvent) {
+    setG(e : WechatMiniprogram.CustomEvent) {
       this.setData({
-        g: arg.detail.value
+        g: e.detail.value
       })
     },
-    setB(arg : WechatMiniprogram.CustomEvent) {
+    setB(e : WechatMiniprogram.CustomEvent) {
       this.setData({
-        b: arg.detail.value
+        b: e.detail.value
       })
     }
   }
