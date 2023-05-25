@@ -83,3 +83,23 @@ button:not([size=mini]) {
   height: 0;
   visibility: hidden;
 }
+
+.overlay {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-content {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 30rpx;
+  box-shadow: 0 0 10rpx 0 black;
+}

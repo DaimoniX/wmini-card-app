@@ -5,13 +5,12 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 40rpx;
+  padding: 30rpx;
 }
 
 .spacer {
   flex-grow: 1;
   flex-shrink: 0;
-  background-color: red;
 }
 
 .hflow {

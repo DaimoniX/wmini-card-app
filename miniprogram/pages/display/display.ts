@@ -16,7 +16,7 @@ Page({
     bgRGB: Array<number>(3).fill(0),
     bgColor: "",
     bgImage: "",
-    index: 0
+    overlay: false
   },
   onReady() {
     const data = getGlobalData();
@@ -40,11 +40,9 @@ Page({
     });
     this.renderPage();
   },
-  setTab(e: WechatMiniprogram.CustomEvent) {
-    const index = e.currentTarget.dataset.tab;
-    this.setData({ index });
-    wx.pageScrollTo({
-      selector: index == 0 ? "#tp" : "#rt"
+  customize() {
+    this.setData({
+      overlay: !this.data.overlay
     });
   },
   setColor(e: WechatMiniprogram.CustomEvent) {

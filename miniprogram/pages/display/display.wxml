@@ -1,5 +1,5 @@
 <!--pages/display/display.wxml-->
-<view class="container" id="tp">
+<view class="container">
   <view class="article-container _save" style="background-color: {{bgColor}};">
     <image class="bgimage _save" src="{{bgImage}}" mode="aspectFill" hidden="{{bgImage === ''}}"></image>
     <view class="article-content _save" style="background-color: {{bgImage === '' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.95)'}};">
@@ -16,29 +16,29 @@
       </view>
     </view>
   </view>
-  <swiper class="customization" current="{{index}}">
-    <swiper-item class="s-item">
-      <view class="vflow">
-        <button type="primary" bindtap="setTab" data-tab="1">Customize</button>
-        <view class="hflow">
-          <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
-          <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
-        </view>
+
+  <view class="vflow">
+    <button type="primary" bindtap="customize" data-tab="1">Customize</button>
+    <view class="hflow">
+      <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
+      <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
+    </view>
+  </view>
+</view>
+
+<view class="overlay" hidden="{{!overlay}}">
+  <view class="spacer"></view>
+  <view class="overlay-content">
+    <view class="vflow">
+      <view class="hflow">
+        <button type="primary" bindtap="selectImage">Select image</button>
+        <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear image</button>
       </view>
-    </swiper-item>
-    <swiper-item class="s-item">
-      <view class="vflow">
-        <view class="hflow">
-          <button type="primary" bindtap="selectImage">Select image</button>
-          <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear image</button>
-        </view>
-        <text>Background color:</text>
-        <colorpicker bindchange="setColor" r="{{bgRGB[0]}}" g="{{bgRGB[1]}}" b="{{bgRGB[2]}}"></colorpicker>
-        <view class="spacer"></view>
-        <button id="rt" type="primary" bindtap="setTab" data-tab="0">Return</button>
-      </view>
-    </swiper-item>
-  </swiper>
+      <text>Background color:</text>
+      <colorpicker bindchange="setColor" r="{{bgRGB[0]}}" g="{{bgRGB[1]}}" b="{{bgRGB[2]}}"></colorpicker>
+      <button type="primary" bindtap="customize" data-tab="0">Return</button>
+    </view>
+  </view>
 </view>
 
 <canvas id="qrc" type="2d" class="hcanvas"></canvas>

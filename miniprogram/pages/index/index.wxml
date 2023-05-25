@@ -4,11 +4,14 @@
     <text class="title">Paper info</text>
     <block wx:for="{{inputs}}" wx:key="key" wx:for-item="input">
       <text>{{input.name}}{{input.required ? "*" : ''}}:</text>
-      <input class="input-field" placeholder-class="input-field-placeholder"
-      placeholder="{{input.name}}" bindinput="inputChange" data-key="{{input.key}}" />
+      <input type="text" confirm-type="next" 
+        class="input-field" placeholder-class="input-field-placeholder"
+        placeholder="{{input.name}}" bindinput="inputChange"
+        value="{{this.data.articleData[input.key]}}" data-key="{{input.key}}"
+      />
     </block>
-    <button type="primary" bindtap="create" disabled="{{!allSet || !validUrl}}">Create poster</button>
-    <text wx:if="{{!allSet}}" style="text-align: center;">Please, fill all requried fields</text>
+    <button type="primary" bindtap="create" disabled="{{!allSet || !validUrl || !ready}}" loading="{{!ready}}">Create poster</button>
+    <text wx:if="{{!allSet}}" style="text-align: center;">Please, fill all required fields</text>
     <text wx:if="{{!validUrl && allSet}}" style="text-align: center;">Invalid url</text>
   </view>
 </view>
