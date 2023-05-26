@@ -33,7 +33,7 @@ Page({
     });
   },
   onShow() {
-    if(getGlobalData().userId != undefined) {
+    if(getGlobalData().openId !== undefined) {
       this.setData({ ready: true });
       return;
     }
