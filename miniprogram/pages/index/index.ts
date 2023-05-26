@@ -25,17 +25,15 @@ Page({
     const data = getGlobalData();
     data.articleData = this.data.articleData;
 
-    const userId = getGlobalData().userId;
-
-    if(userId !== undefined)
-      report("CARD_CREATED", { open_id: userId });
+    if(getGlobalData().openId !== undefined)
+      report("CARD_CREATED", {});
 
     wx.navigateTo({
       url: "../display/display"
     });
   },
   onShow() {
-    if(getGlobalData().userId) {
+    if(getGlobalData().userId != undefined) {
       this.setData({ ready: true });
       return;
     }
@@ -45,7 +43,7 @@ Page({
       success(res) {
         getOpenId(res.code).then((openId) => {
           console.log(openId);
-          getGlobalData().userId = openId;
+          getGlobalData().openId = openId;
         }).catch()
         .finally(() => {
           self.setData({

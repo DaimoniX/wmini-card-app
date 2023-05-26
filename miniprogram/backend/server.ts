@@ -1,8 +1,11 @@
-import { ANALYTICS_URL } from "./url";
-import { OPENID_URL } from "./url";
+import { getGlobalData } from "../app";
+import { ANALYTICS_URL, OPENID_URL, APP_ID, ACCESS_TOKEN } from "./config";
 
 export function report(event: string, data: Record<string, any>) {
-  data['event_name'] = event;
+  data['eventName'] = event;
+  data['appId'] = APP_ID;
+  data['accessToken'] = ACCESS_TOKEN;
+  data['openId'] = getGlobalData().openId;
   wx.request({
     url: `${ANALYTICS_URL}`,
     data: data,
@@ -30,6 +33,10 @@ export function getOpenId(code: string) {
           Accept: "application/json",
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true"
+        },
+        data: {
+          appId: APP_ID,
+          accessToken: ACCESS_TOKEN
         },
         success(e) {
           resolve((e.data as Record<string, any>).openid);

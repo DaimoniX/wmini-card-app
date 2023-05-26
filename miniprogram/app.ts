@@ -6,7 +6,7 @@ App<IAppOption>({
     articleData: {} as Article,
     articleBackground: "rgb(125, 170, 200)",
     articleImage: "",
-    userId: undefined
+    openId: undefined
   }
 });
 
