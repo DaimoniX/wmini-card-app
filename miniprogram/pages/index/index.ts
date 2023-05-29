@@ -1,5 +1,5 @@
 import validator from 'validator';
-import { report, getOpenId } from '../../backend/server';
+import { report, getOpenId, getFrames } from '../../backend/server';
 import { getGlobalData } from '../../app';
 import { ArticleField, CreateEmptyArticle, inputFields, ValidateArticle } from '../../article';
 
@@ -25,7 +25,7 @@ Page({
     const data = getGlobalData();
     data.articleData = this.data.articleData;
 
-    if(getGlobalData().openId !== undefined)
+    if (getGlobalData().openId !== undefined)
       report("CARD_CREATED", {});
 
     wx.navigateTo({
@@ -33,7 +33,7 @@ Page({
     });
   },
   onShow() {
-    if(getGlobalData().openId !== undefined) {
+    if (getGlobalData().openId !== undefined) {
       this.setData({ ready: true });
       return;
     }
@@ -44,12 +44,13 @@ Page({
         getOpenId(res.code).then((openId) => {
           console.log(openId);
           getGlobalData().openId = openId;
+          getFrames().then((frames) => getGlobalData().serverFrames = frames);
         }).catch()
-        .finally(() => {
-          self.setData({
-            ready: true
+          .finally(() => {
+            self.setData({
+              ready: true
+            })
           })
-        })
       },
     });
   }

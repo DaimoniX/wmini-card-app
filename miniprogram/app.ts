@@ -6,7 +6,8 @@ App<IAppOption>({
     articleData: {} as Article,
     articleBackground: "rgb(125, 170, 200)",
     articleImage: "",
-    openId: undefined
+    openId: undefined,
+    serverFrames: [],
   }
 });
 

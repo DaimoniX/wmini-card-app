@@ -31,6 +31,11 @@
   <view class="overlay-content">
     <view class="vflow">
       <view class="hflow">
+        <block wx:for="{{serverFrames}}" wx:key="*this" wx:index="index">
+          <button data-sfId="{{index}}" bindtap="setServerImage">{{index}}</button>
+        </block>
+      </view>
+      <view class="hflow">
         <button type="primary" bindtap="selectImage">Select image</button>
         <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear image</button>
       </view>

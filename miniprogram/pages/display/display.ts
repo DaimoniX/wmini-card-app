@@ -16,7 +16,8 @@ Page({
     bgRGB: Array<number>(3).fill(0),
     bgColor: "",
     bgImage: "",
-    overlay: false
+    overlay: false,
+    serverFrames: []
   },
   onReady() {
     const data = getGlobalData();
@@ -29,7 +30,8 @@ Page({
 
     this.setData({
       bgImage: data.articleImage,
-      bgRGB: fromRGBString(data.articleBackground)
+      bgRGB: fromRGBString(data.articleBackground),
+      serverFrames: getGlobalData().serverFrames,
     });
     this.updateData(article, data.articleBackground);
   },
@@ -94,7 +96,22 @@ Page({
     wx.chooseMedia({
       count: 1, mediaType: ['image'],
       success(res) {
+        // TODO implement caching
         self.setImage(res.tempFiles[0].tempFilePath);
+      }
+    });
+  },
+  setServerImage(e : WechatMiniprogram.CustomEvent) {
+    const id = e.currentTarget.dataset.sfid;
+    const url = this.data.serverFrames[id];
+    const self = this;
+    wx.downloadFile({
+      url,
+      header: {
+        "ngrok-skip-browser-warning": "true"
+      },
+      success(res) {
+        self.setImage(res.tempFilePath);
       }
     });
   },
