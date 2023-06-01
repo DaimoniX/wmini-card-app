@@ -17,6 +17,9 @@ Page({
     bgColor: "",
     bgImage: "",
     overlay: false,
+    serverFramesVisible: false,
+    serverFrameIndex: 0,
+    serverFrameUrl: "",
     serverFrames: []
   },
   onReady() {
@@ -96,12 +99,11 @@ Page({
     wx.chooseMedia({
       count: 1, mediaType: ['image'],
       success(res) {
-        // TODO implement caching
         self.setImage(res.tempFiles[0].tempFilePath);
       }
     });
   },
-  setServerImage(e : WechatMiniprogram.CustomEvent) {
+  setServerImage(e: WechatMiniprogram.CustomEvent) {
     const id = e.currentTarget.dataset.sfid;
     const url = this.data.serverFrames[id];
     const self = this;
@@ -111,6 +113,7 @@ Page({
         "ngrok-skip-browser-warning": "true"
       },
       success(res) {
+        // TODO implement caching
         self.setImage(res.tempFilePath);
       }
     });
@@ -122,5 +125,35 @@ Page({
     this.setData({ bgImage: img });
     getGlobalData().articleImage = img;
     this.renderPage();
+  },
+  cycleFrame(e: WechatMiniprogram.CustomEvent) {
+    const next = e.currentTarget.dataset.next;
+    const newIndex = this.data.serverFrameIndex + (next ? 1 : -1);
+    this.setData({
+      serverFrameIndex: newIndex
+    });
+    this.setFrame(newIndex);
+  },
+  setFrame(index: number) {
+    const self = this;
+    wx.downloadFile({
+      url: self.data.serverFrames[index],
+      header: {
+        "ngrok-skip-browser-warning": "true"
+      },
+      success(res) {
+        self.setData({
+          serverFrameUrl: res.tempFilePath
+        });
+      }
+    });
+  },
+  toggleSf() {
+    this.setData({ serverFramesVisible: !this.data.serverFramesVisible });
+    if (this.data.serverFrameUrl == "")
+      this.setFrame(0);
+  },
+  selectFrame() {
+    this.setImage(this.data.serverFrameUrl);
   }
 })

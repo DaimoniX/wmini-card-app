@@ -1,8 +1,9 @@
 import { getGlobalData } from "../app";
 import { ANALYTICS_URL, OPENID_URL, APP_ID, ACCESS_TOKEN, FRAMES_URL, BASE_URL } from "./config";
+import request from "./request";
 
 function buildImageUrl(img: string) {
-  if(img.startsWith("http"))
+  if (img.startsWith("http"))
     return img;
   return `${BASE_URL}/${img}`;
 }
@@ -12,52 +13,37 @@ export function report(event: string, data: Record<string, any>) {
   data['appId'] = APP_ID;
   data['accessToken'] = ACCESS_TOKEN;
   data['openId'] = getGlobalData().openId;
-  wx.request({
+  request({
     url: `${ANALYTICS_URL}`,
     data: data,
     method: 'POST',
-    header: {
-      "ngrok-skip-browser-warning": "true"
-    },
-    success() {
-      console.log("Reported event:", event);
-    },
-    fail(e) {
-      console.log("Failed to report:", e);
-    }
-  });
+  }).then(() => console.log("Reported event:", event))
+    .catch((e) => console.log("Failed to report:", e));
 }
 
 export function getOpenId(code: string) {
-  return new Promise<String>(
-    (resolve, reject) =>
-      wx.request({
-        url: `${OPENID_URL}?js_code=${code}`,
-        method: "GET",
-        timeout: 10000,
-        header: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true"
-        },
-        data: {
-          appId: APP_ID,
-          accessToken: ACCESS_TOKEN
-        },
-        success(e) {
-          resolve((e.data as Record<string, any>).openid);
-        },
-        fail(e) {
-          reject(e);
-        }
-      })
+  return new Promise<String>((resolve, reject) =>
+    request({
+      url: `${OPENID_URL}?js_code=${code}`,
+      method: "GET",
+      timeout: 10000,
+      data: {
+        appId: APP_ID,
+        accessToken: ACCESS_TOKEN
+      }
+    }).then((res) => {
+      if (res.statusCode !== 200 || !res.data?.openid)
+        reject(res);
+      else
+        resolve(res.data.openid)
+    }).catch(reject)
   );
 }
 
 export function getFrames() {
   return new Promise<Array<string>>(
     (resolve, reject) =>
-      wx.request({
+      request({
         url: `${FRAMES_URL}`,
         method: "GET",
         timeout: 10000,
@@ -69,17 +55,13 @@ export function getFrames() {
         data: {
           appId: APP_ID,
           accessToken: ACCESS_TOKEN
-        },
-        success(e) {
-          const frames = (e.data as any).frames;
-          const result = Array<string>();
-          for(const frame of frames)
-            result.push(buildImageUrl(frame.img));
-          resolve(result);
-        },
-        fail(e) {
-          reject(e);
         }
-      })
+      }).then((e) => {
+        const frames = (e.data as Record<string, any>).frames;
+        const result = Array<string>();
+        for (const frame of frames)
+          result.push(buildImageUrl(frame.img));
+        resolve(result);
+      }).catch(reject)
   );
 }

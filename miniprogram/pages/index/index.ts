@@ -45,7 +45,7 @@ Page({
           console.log(openId);
           getGlobalData().openId = openId;
           getFrames().then((frames) => getGlobalData().serverFrames = frames);
-        }).catch()
+        }).catch(() => {})
           .finally(() => {
             self.setData({
               ready: true
