@@ -1,4 +1,5 @@
 import { getGlobalData } from "../../app";
+import { addToCache, getFromCache } from "../../frameCache";
 import { fromRGBString } from "../../utils/rgbTools";
 
 // pages/customization/customization.ts
@@ -62,16 +63,25 @@ Page({
   loadServerFrame() {
     if(this.data.serverFrameId < 0)
       return;
-    const self = this;
-    wx.downloadFile({
-      url: self.data.serverFrames[self.data.serverFrameId],
-      header: {
-        "ngrok-skip-browser-warning": "true"
-      },
-      success(res) {
-        self.setImage(res.tempFilePath);
-      }
-    });
+
+    const url = this.data.serverFrames[this.data.serverFrameId];
+    const cachedImage = getFromCache(url); 
+    if(!cachedImage) {
+      const self = this;
+      const url = self.data.serverFrames[self.data.serverFrameId]
+      wx.downloadFile({
+        url,
+        header: {
+          "ngrok-skip-browser-warning": "true"
+        },
+        success(res) {
+          addToCache(url, res.tempFilePath);
+          self.setImage(res.tempFilePath);
+        }
+      });
+    }
+    else
+      this.setImage(cachedImage);
   },
   showServerFrames() {
     this.setFrameIndex(0);

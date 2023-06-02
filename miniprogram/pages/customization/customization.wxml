@@ -2,14 +2,14 @@
 <view class="container" wx:if="ready">
   <view class="server-frames">
     <view class="preview-flow">
-      <button class="frame-button" type="primary" disabled="{{serverFrameId < 1}}" bindtap="cycleFrame" data-next="{{false}}" hidden="{{serverFrameId < 0}}">←</button>
+      <button class="preview-button" type="primary" size="mini" disabled="{{serverFrameId < 1}}" bindtap="cycleFrame" data-next="{{false}}" hidden="{{serverFrameId < 0}}">←</button>
       <view class="preview-container">
         <image src="{{backgroundImage}}" class="preview-frame" binderror="err" style="background-color: {{rgbString}};"></image>
         <view class="content-box">
           <view class="content-placeholder"></view>
         </view>
       </view>
-      <button class="frame-button" type="primary" bindtap="cycleFrame" data-next="{{true}}" disabled="{{serverFrameId + 1 >= serverFrames.length}}" hidden="{{serverFrameId < 0}}">→</button>
+      <button class="preview-button" type="primary" size="mini" bindtap="cycleFrame" data-next="{{true}}" disabled="{{serverFrameId + 1 >= serverFrames.length}}" hidden="{{serverFrameId < 0}}">→</button>
     </view>
     <view style="text-align: center;" wx:if="{{serverFrameId > -1 && backgroundImage}}">
       {{serverFrameId + 1}}/{{serverFrames.length}}
