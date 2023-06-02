@@ -1,13 +1,14 @@
 // app.ts
-import { Article } from "./article";
+import { Article, CreateEmptyArticle } from "./article";
+import { CardSettings, CreateSettings } from "./cardSettings";
 
 App<IAppOption>({
   globalData: {
-    articleData: {} as Article,
-    articleBackground: "rgb(125, 170, 200)",
-    articleImage: "",
+    articleData: CreateEmptyArticle() as Article,
+    cardSettings: CreateSettings() as CardSettings,
     openId: undefined,
     serverFrames: [],
+    serverFrameId: -1
   }
 });
 

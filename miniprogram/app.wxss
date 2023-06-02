@@ -1,4 +1,8 @@
 /**app.wxss**/
+button:not([size=mini]) {
+  width: 100% !important;
+}
+
 .container {
   display: flex;
   flex-direction: column;

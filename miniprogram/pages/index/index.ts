@@ -22,8 +22,7 @@ Page({
     });
   },
   create() {
-    const data = getGlobalData();
-    data.articleData = this.data.articleData;
+    getGlobalData().articleData = this.data.articleData;
 
     if (getGlobalData().openId !== undefined)
       report("CARD_CREATED", {});

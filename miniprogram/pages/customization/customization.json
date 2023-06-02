@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "Customization",
+  "usingComponents": {
+    "colorpicker" : "../../components/colorpicker/colorpicker"
+  }
+}

@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/display/display"
+    "pages/display/display",
+    "pages/customization/customization"
   ],
   "window": {
     "backgroundTextStyle": "light",

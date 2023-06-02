@@ -21,47 +21,8 @@
     <view class="vflow">
       <button type="primary" bindtap="customize" data-tab="1">Customize</button>
       <view class="hflow">
-        <button type="primary" bindtap="preview" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Preview</button>
-        <button type="primary" bindtap="save" loading="{{pageImage.length<1}}" disabled="{{pageImage.length<1}}">Save</button>
-      </view>
-    </view>
-  </view>
-
-  <view class="overlay" wx:if="{{overlay}}">
-    <view class="spacer"></view>
-    <view class="overlay-content">
-      <view class="vflow">
-        <button type="primary" bindtap="toggleSf" disabled="{{serverFrames.length < 1}}">Toggle server frames</button>
-        <block wx:if="{{serverFramesVisible}}">
-          <view class="server-frames">
-            <view class="preview-flow">
-              <button class="frame-button" type="primary" disabled="{{serverFrameIndex < 1}}" bindtap="cycleFrame" data-next="{{false}}">{{"<"}}</button>
-              <view class="preview-container">
-                <image src="{{serverFrameUrl}}" class="preview-frame" binderror="err"></image>
-                <view class="preview-box">
-                  <view class="preview-content"></view>
-                </view>
-              </view>
-              <button class="frame-button" type="primary" bindtap="cycleFrame" data-next="{{true}}" disabled="{{serverFrameIndex + 1 >= serverFrames.length}}">{{">"}}</button>
-            </view>
-            <view style="text-align: center;">
-              {{serverFrameIndex + 1}}/{{serverFrames.length}}
-            </view>
-            <view class="hflow">
-              <button type="primary" bindtap="selectFrame">Select</button>
-              <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear</button>
-            </view>
-          </view>
-        </block>
-        <block wx:else>
-          <view class="hflow">
-            <button type="primary" bindtap="selectImage">Select image</button>
-            <button type="primary" bindtap="clearImage" disabled="{{bgImage === ''}}">Clear image</button>
-          </view>
-        </block>
-        <text>Background color:</text>
-        <colorpicker bindchange="setColor" r="{{bgRGB[0]}}" g="{{bgRGB[1]}}" b="{{bgRGB[2]}}"></colorpicker>
-        <button type="primary" bindtap="customize" data-tab="0">Return</button>
+        <button type="primary" bindtap="preview" disabled="{{!generatedImage}}">Preview</button>
+        <button type="primary" bindtap="save" disabled="{{!generatedImage}}">Save</button>
       </view>
     </view>
   </view>
