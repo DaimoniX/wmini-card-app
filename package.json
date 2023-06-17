@@ -9,7 +9,7 @@
   "license": "",
   "devDependencies": {
     "@types/validator": "^13.7.16",
-    "miniprogram-api-typings": "3.9.1"
+    "miniprogram-api-typings": "3.10.0"
   },
   "dependencies": {
     "validator": "^13.9.0"

@@ -16,7 +16,6 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "condition": false,
     "minified": true,
     "es6": true,
     "enhance": true,
@@ -26,14 +25,15 @@
         "packageJsonPath": "package.json",
         "miniprogramNpmDistDir": "miniprogram/"
       }
-    ]
+    ],
+    "condition": true
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {},
   "srcMiniprogramRoot": "miniprogram/",
   "appid": "wx437081fe1516784e",
-  "libVersion": "2.31.0",
+  "libVersion": "2.32.2",
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2

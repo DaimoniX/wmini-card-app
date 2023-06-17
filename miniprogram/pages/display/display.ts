@@ -4,6 +4,7 @@ import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
 import { selectAsync, canvasToTempFilePathAsync } from "../../utils/wxPromise";
 import { getGlobalData } from "../../app";
 import { Article, inputFields } from "../../article";
+import { error } from "../../debug/modal";
 
 // pages/display/display.ts
 Page({
@@ -56,22 +57,26 @@ Page({
       generatedImage: ""
     });
 
-    if (!this.data.qrImage) {
-      const url = this.data.articleData["url"];
-      const qrCode = QrCode.encodeText(url);
-      const qrCanvas = (await selectAsync('#qrc', { node: true, size: true })).node as WechatMiniprogram.Canvas;
+    try {
+      if (!this.data.qrImage) {
+        const url = this.data.articleData["url"];
+        const qrCode = QrCode.encodeText(url);
+        const qrCanvas = (await selectAsync('#qrc', { node: true, size: true })).node as WechatMiniprogram.Canvas;
 
-      drawCanvasQR(qrCode, 32, 2, "white", "black", qrCanvas);
-      const file = await qrToFileAsync(qrCanvas);
+        drawCanvasQR(qrCode, 16, 2, "white", "black", qrCanvas);
+        const file = await qrToFileAsync(qrCanvas);
 
-      this.setData({
-        qrImage: file
-      });
+        this.setData({
+          qrImage: file
+        });
+      }
+
+      const pageCanvas = (await selectAsync('#pagec', { node: true, size: true })).node as WechatMiniprogram.Canvas;
+      await renderPageOnCanvas(pageCanvas, ".article-container", "._save", 2);
+      const tempFile = await canvasToTempFilePathAsync(pageCanvas, pageCanvas.width, pageCanvas.height);
+      this.setData({ generatedImage: tempFile });
+    } catch (e) {
+      error("Error", JSON.stringify(e));
     }
-
-    const pageCanvas = (await selectAsync('#pagec', { node: true, size: true })).node as WechatMiniprogram.Canvas;
-    await renderPageOnCanvas(pageCanvas, ".article-container", "._save");
-    const tempFile = await canvasToTempFilePathAsync(pageCanvas, pageCanvas.width, pageCanvas.height);
-    this.setData({ generatedImage: tempFile });
   }
 })
