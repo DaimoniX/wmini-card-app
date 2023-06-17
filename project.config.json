@@ -6,7 +6,7 @@
   },
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
-  "projectname": "wmini-task",
+  "projectname": "Card app",
   "setting": {
     "useCompilerPlugins": [
       "typescript"
