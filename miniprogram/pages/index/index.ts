@@ -18,7 +18,7 @@ Page({
     const allSet = ValidateArticle(this.data.articleData);
     this.setData({
       allSet: allSet,
-      validUrl: allSet && validator.isURL(this.data.articleData["url"] ?? "")
+      validUrl: allSet && validator.isURL(this.data.articleData["url"] ?? "", { require_protocol: true })
     });
   },
   create() {
