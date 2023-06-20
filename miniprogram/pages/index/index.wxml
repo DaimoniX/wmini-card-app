@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container">
+<view class="container gp">
   <view class="input-zone">
     <text class="title">Paper info</text>
     <block wx:for="{{inputs}}" wx:key="key" wx:for-item="input">
@@ -13,5 +13,9 @@
     <button type="primary" bindtap="create" disabled="{{!allSet || !validUrl || !ready}}" loading="{{!ready}}">Create poster</button>
     <text wx:if="{{!allSet}}" style="text-align: center;">Please, fill all required fields</text>
     <text wx:if="{{!validUrl && allSet}}" style="text-align: center;">Invalid url</text>
+  </view>
+
+  <view>
+    V 1.01
   </view>
 </view>
