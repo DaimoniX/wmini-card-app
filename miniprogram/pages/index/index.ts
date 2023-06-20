@@ -43,6 +43,7 @@ Page({
     let sId = wx.getStorageSync("openId");
     if (sId) {
       getGlobalData().openId = sId;
+      console.log("l:", sId);
       this.setData({ ready: true });
       return;
     }
