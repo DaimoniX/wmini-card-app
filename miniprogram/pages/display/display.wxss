@@ -44,6 +44,7 @@
   width: 7rem;
   height: 7rem;
   background: rgb(224, 224, 224);
+  position: relative;
 }
 
 .qrc {
@@ -71,8 +72,16 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  display: none;
-  visibility: hidden;
+}
+
+.icanvas {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -5;
 }
 
 .overlay {

@@ -2,7 +2,8 @@
 <view>
   <view class="container">
     <view class="article-container _save" style="background-color: {{bgColor}};">
-      <image class="bgimage _save" src="{{bgImage}}" mode="scaleToFill" hidden="{{bgImage === ''}}"></image>
+      <canvas id="pagec" type="2d" class="icanvas" />
+      <image class="bgimage _save" src="{{bgImage}}" mode="scaleToFill" hidden="{{bgImage === ''}}" />
       <view class="article-content _save" style="background-color: {{bgImage === '' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 1)'}};">
         <text class="wb heading center _save" data-text="~ Article ~">~ Article ~</text>
         <text class="wb heading center _save" data-text="{{articleData['name']}}">{{articleData['name']}}</text>
@@ -13,6 +14,7 @@
           </block>
         </block>
         <view class="qr _save">
+          <canvas id="qrc" type="2d" class="icanvas" />
           <image src="{{qrImage}}" class="qrc _save"></image>
         </view>
       </view>
@@ -26,7 +28,4 @@
       </view>
     </view>
   </view>
-
-  <canvas id="qrc" type="2d" class="hcanvas"></canvas>
-  <canvas id="pagec" type="2d" class="hcanvas"></canvas>
 </view>
