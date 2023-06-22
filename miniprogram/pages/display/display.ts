@@ -43,12 +43,38 @@ Page({
     });
   },
   save() {
-    wx.saveImageToPhotosAlbum({
-      filePath: this.data.generatedImage,
-      success() {
-        wx.showToast({
-          title: "File saved"
-        });
+    const self = this;
+    function saveToAlbum() {
+      wx.saveImageToPhotosAlbum({
+        filePath: self.data.generatedImage,
+        success() {
+          wx.showToast({
+            title: "File saved"
+          });
+        },
+        fail() {
+          wx.showToast({
+            title: "Error",
+            icon: "error"
+          })
+        }
+      });
+    }
+
+    wx.getSetting({
+      async success(res) {
+        if (!res.authSetting['scope.userInfo'])
+          wx.authorize({
+            scope: 'scope.userInfo',
+            success() {
+              saveToAlbum();
+            },
+            fail() {
+              wx.showToast({ title: "No permission", icon: "error" })
+            }
+          });
+        else
+          saveToAlbum();
       }
     });
   },
