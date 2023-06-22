@@ -63,9 +63,9 @@ Page({
 
     wx.getSetting({
       async success(res) {
-        if (!res.authSetting['scope.userInfo'])
+        if (!res.authSetting['scope.writePhotosAlbum'])
           wx.authorize({
-            scope: 'scope.userInfo',
+            scope: 'scope.writePhotosAlbum',
             success() {
               saveToAlbum();
             },
