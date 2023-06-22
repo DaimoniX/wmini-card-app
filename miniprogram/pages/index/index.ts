@@ -1,7 +1,7 @@
-import validator from 'validator';
 import { report, getOpenId, getFrames } from '../../backend/server';
 import { getGlobalData } from '../../app';
-import { ArticleField, CreateEmptyArticle, inputFields, ValidateArticle } from '../../article';
+import { ArticleField, CreateEmptyArticle, inputFields, ValidateArticle } from '../../utils/article';
+import { isURL } from '../../utils/validator';
 
 Page({
   data: {
@@ -18,7 +18,7 @@ Page({
     const allSet = ValidateArticle(this.data.articleData);
     this.setData({
       allSet: allSet,
-      validUrl: allSet && validator.isURL(this.data.articleData["url"] ?? "")
+      validUrl: allSet && isURL(this.data.articleData["url"] ?? "")
     });
   },
   create() {
@@ -40,10 +40,13 @@ Page({
       return;
     }
 
-    let sId = wx.getStorageSync("openId");
+    const sId = wx.getStorageSync("openId");
     if (sId) {
       getGlobalData().openId = sId;
       console.log("l:", sId);
+      const frames = getGlobalData().serverFrames;
+      if (!frames || frames.length < 1)
+        getFrames().then((frames) => getGlobalData().serverFrames = frames);
       this.setData({ ready: true });
       return;
     }

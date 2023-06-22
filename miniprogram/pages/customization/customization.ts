@@ -1,8 +1,7 @@
 import { getGlobalData } from "../../app";
-import { addToCache, getFromCache } from "../../frameCache";
+import { addToCache, getFromCache } from "../../utils/frameCache";
 import { fromRGBString } from "../../utils/rgbTools";
 
-// pages/customization/customization.ts
 Page({
   data: {
     ready: false,

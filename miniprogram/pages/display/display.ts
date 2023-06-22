@@ -3,10 +3,9 @@ import { drawCanvasQR, qrToFileAsync } from "./qr/qrhelper";
 import { renderPageOnCanvas } from "./page2Canvas/page2Canvas";
 import { selectAsync, canvasToTempFilePathAsync } from "../../utils/wxPromise";
 import { getGlobalData } from "../../app";
-import { Article, inputFields } from "../../article";
+import { Article, inputFields } from "../../utils/article";
 import { error } from "../../debug/modal";
 
-// pages/display/display.ts
 Page({
   data: {
     fields: inputFields.slice(1),
@@ -83,6 +82,8 @@ Page({
       generatedImage: ""
     });
 
+    new Promise(() => wx.showLoading({ title: "Creating page" }));
+
     try {
       if (!this.data.qrImage) {
         const url = this.data.articleData["url"];
@@ -103,6 +104,8 @@ Page({
       this.setData({ generatedImage: tempFile });
     } catch (e) {
       error("Error", JSON.stringify(e));
+    } finally {
+      wx.hideLoading();
     }
   }
 })

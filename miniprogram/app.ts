@@ -1,6 +1,5 @@
-// app.ts
-import { Article, CreateEmptyArticle } from "./article";
-import { CardSettings, CreateSettings } from "./cardSettings";
+import { Article, CreateEmptyArticle } from "./utils/article";
+import { CardSettings, CreateSettings } from "./utils/cardSettings";
 
 App<IAppOption>({
   globalData: {
